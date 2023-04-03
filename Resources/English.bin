@@ -1,0 +1,54 @@
+#
+# Super Steam Packer Language File
+#
+
+[SSP]
+by=by
+queue=Queue
+add=Add to Queue
+del=Delete from Queue
+ClearQueue=Clear Queue
+AppIDInfoMsg1=The AppID for the game you want to download.
+AppIDInfoMsg2=Can be found here:
+OSMsg1=Operating System version to download.
+OSMsg2=Please note not all games are available on more than one OS. Check SteamDB for game specific information!
+AppIDWarning=Please enter a valid AppID.
+Warning=Warning!
+Status=Status
+Forum=Forum
+READY=READY
+DOWNLOADING=DOWNLOADING
+COMPRESSING=COMPRESSING
+COMPLETE=COMPLETE
+FAIL=FAILED
+RATELIMITED=RATE LIMITED
+BADLOGIN=BAD LOGIN
+SKIPPED=SKIPPED [EXISTS]
+GETINFO=GETTING INFO
+UNABLETOREACH=UNABLE TO REACH API
+WRITINGINFO=WRITING INFO
+Start=Start
+Username=Steam Username:
+Password=Steam Password:
+AlreadyAdded=Item already added to queue!
+SaveLogin=Save Login Details
+LoginSaveWarning1=By pressing OK, you understand that your login details will be stored by this program.
+LoginSaveWarning2=This data is stored locally and is not sent across the internet!
+MoreSettings=More Settings
+Information=Information
+pleaseselectwarning=Please select an item to remove.
+Language=Language
+Compressor=Compressor
+customcompressoroptions=Use Custom Compression Options:
+DeleteSavedLogin=Delete Saved Login Data
+jobscomplete=All Jobs Complete!
+jobscomplete2=Pressing OK will clear the queue.
+compressionwarning1=The default settings will be ideal for most users.
+compressionwarning2=Only change this if you know what you are doing!
+loginwarning=Please enter valid login details.
+anonymousconfirmation=By continuing, you will use an Anonymous login. This severly reduces what you can download from Steam!
+MoveUp=Move Item Up
+MoveDown=Move Item Down
+Import=Import Queue
+Export=Export Queue
+RateLimitWarn=You are Rate Limited, meaning, Steam has blocked you from logging in. Please choose to continue (not recommended) or try again later. Continue?
