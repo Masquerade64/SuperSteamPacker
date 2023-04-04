@@ -639,7 +639,7 @@ namespace SuperSteamPacker
                     Directory.SetCurrentDirectory("Temp");
                     if (Directory.Exists("steamapps\\workshop"))
                     {
-                        Directory.Delete("steamapps\\workshop");
+                        Directory.Delete("steamapps\\workshop", true);
                     }
 
                     List<string> DepotManifestList = new List<string>();
