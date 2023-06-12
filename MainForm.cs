@@ -633,7 +633,9 @@ namespace SuperSteamPacker
 
 
                     string GameName = ReadVDF("Temp\\steamapps\\appmanifest_" + AppID + ".acf", "name");
-                    GameName = GameName.Replace(" ", "_");
+                    GameName = GameName.Replace(" ", ".");
+                    char[] forbiddenchars = Path.GetInvalidFileNameChars();
+                    GameName = Regex.Replace(GameName, "[" + Regex.Escape(new string(forbiddenchars)) + "]", "");
                     string BuildNo = ReadVDF("Temp\\steamapps\\appmanifest_" + AppID + ".acf", "buildid");
                     Directory.CreateDirectory("Completed");
                     Directory.SetCurrentDirectory("Temp");
@@ -757,10 +759,10 @@ namespace SuperSteamPacker
                     Directory.Delete("Temp", true);
                     QueueBox.Items[int.Parse(file.Substring(5, 1))] = QueueBox.Items[int.Parse(file.Substring(5, 1))].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("WRITINGINFO", "SSP"));
 
-                    /// info writer ///
                     using (StreamWriter RINfo = new StreamWriter("Completed\\[CS.RIN.RU Info] " + GameName+".Build."+BuildNo+"."+OS+".txt"))
                     {
-                        GameName.Replace("_", " ");
+                        GameName = GameName.Replace("_", " ");
+                        GameName = GameName.Replace(".", " ");
                         RINfo.WriteLine("[url=][color=white][b]" + GameName + " (Clean Steam Files)[/b][/color][/url]");
                         RINfo.WriteLine("[size=85][color=white][b]Version:[/b] [i]" + BuildTime + " [Build " + BuildNo + "][/i][/color][/size]");
                         RINfo.WriteLine();
