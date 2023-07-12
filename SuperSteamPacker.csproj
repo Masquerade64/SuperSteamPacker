@@ -135,9 +135,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="Resources\English.bin" />
+    <None Include="Resources\French.bin" />
     <None Include="Resources\Global.bin" />
     <None Include="Resources\Settings.bin" />
-    <None Include="Resources\Settings.ini" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -147,8 +147,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="application.ico" />
-    <None Include="Resources\English.ini" />
-    <None Include="Resources\Global.ini" />
     <None Include="Resources\rar.exe" />
     <None Include="Resources\7z.exe" />
   </ItemGroup>

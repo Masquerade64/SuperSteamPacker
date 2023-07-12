@@ -119,7 +119,12 @@ namespace SuperSteamPacker
             ExportQueueButton.Enabled = false;
             ExportQueueButton.Text    = languageini.Read("Export", "SSP");
             ImportQueueButton.Text    = languageini.Read("Import", "SSP");
-            OSBox.SelectedIndex       = 3;
+            OSBox.SelectedIndex       = 4;
+            QueueManageGrp.Text       = languageini.Read("QueueManageGroup", "SSP");
+            GameManageGrp.Text        = languageini.Read("GameManageGroup", "SSP");
+            BranchGrp.Text            = languageini.Read("BranchManagerGroup", "SSP");
+            BranchLabel.Text          = languageini.Read("BranchLabel", "SSP");
+            BranchPasswordCB.Text     = languageini.Read("BranchPassword", "SSP");
 
             if (File.Exists("userdata.ini"))
             {
@@ -129,6 +134,10 @@ namespace SuperSteamPacker
                 UsernameTextBox.Enabled = false;
                 PasswordTextBox.Enabled = false;
             }
+
+            BranchPasswordTxtBox.Enabled = false;
+            BranchPasswordCB.Enabled     = false;
+            BranchNameTxtBox.Enabled     = false;
         }
 
         public static void EditVDF(string filePath, string keyToModify, string newValue)
@@ -211,17 +220,19 @@ namespace SuperSteamPacker
             switch (OSBox.SelectedItem.ToString())
             {
                 case ("Windows x64"):
-                    appcheck = "win64" + AppIDTxtBox.Text;
+                    appcheck = "win64" + "|" + AppIDTxtBox.Text + "|" + BranchNameTxtBox.Text + "|" + BranchPasswordTxtBox.Text;
                     break;
                 case ("Windows x86"):
-                    appcheck = "win32" + AppIDTxtBox.Text;
+                    appcheck = "win32" + "|" + AppIDTxtBox.Text + "|" + BranchNameTxtBox.Text + "|" + BranchPasswordTxtBox.Text;
                     break;
-                case ("Linux"):
-                    appcheck = "linux" + AppIDTxtBox.Text;
+                case ("Linux x86"):
+                    appcheck = "lin32" + "|" + AppIDTxtBox.Text + "|" + BranchNameTxtBox.Text + "|" + BranchPasswordTxtBox.Text;
+                    break;
+                case ("Linux x64"):
+                    appcheck = "lin64" + "|" + AppIDTxtBox.Text + "|" + BranchNameTxtBox.Text + "|" + BranchPasswordTxtBox.Text;
                     break;
                 case ("Mac"):
-                    ;
-                    appcheck = "macos" + AppIDTxtBox.Text;
+                    appcheck = "macos" + "|" + AppIDTxtBox.Text + "|" + BranchNameTxtBox.Text + "|" + BranchPasswordTxtBox.Text;
                     break;
             }
             if (!TmpLstBx.Items.Contains(appcheck))
@@ -234,30 +245,15 @@ namespace SuperSteamPacker
 
                 if (!String.IsNullOrEmpty(AppIDTxtBox.Text) && validappidcheck == true)
                 {
-                    if (OSBox.SelectedItem.ToString() == "Mac" || OSBox.SelectedItem.ToString() == "Linux")
+                    if (OSBox.SelectedItem.ToString() == "Mac")
                     {
-                        QueueBox.Items.Add("AppID: " + AppIDTxtBox.Text + "\t\t" + "OS: " + OSBox.SelectedItem.ToString() + "\t\t\t" + languageini.Read("Status", "SSP") + ":" + " " + languageini.Read("READY", "SSP"));
+                        QueueBox.Items.Add("AppID: " + AppIDTxtBox.Text + "\t" + "Branch: " + BranchNameTxtBox.Text + "\t\t" + "OS: " + OSBox.SelectedItem.ToString() + "\t\t" + languageini.Read("Status", "SSP") + ":" + " " + languageini.Read("READY", "SSP"));
                     }
                     else
                     {
-                        QueueBox.Items.Add("AppID: " + AppIDTxtBox.Text + "\t\t" + "OS: " + OSBox.SelectedItem.ToString() + "\t\t" + languageini.Read("Status", "SSP") + ":" + " " + languageini.Read("READY", "SSP"));
+                        QueueBox.Items.Add("AppID: " + AppIDTxtBox.Text + "\t" + "Branch: " + BranchNameTxtBox.Text + "\t" + "OS: " + OSBox.SelectedItem.ToString() + "\t" + languageini.Read("Status", "SSP") + ":" + " " + languageini.Read("READY", "SSP"));
                     }
-                    switch (OSBox.SelectedItem.ToString())
-                    {
-                        case ("Windows x64"):
-                            TmpLstBx.Items.Add("win64" + AppIDTxtBox.Text);
-                            break;
-                        case ("Windows x86"):
-                            TmpLstBx.Items.Add("win32" + AppIDTxtBox.Text);
-                            break;
-                        case ("Linux"):
-                            TmpLstBx.Items.Add("linux" + AppIDTxtBox.Text);
-                            break;
-                        case ("Mac"):
-                            ;
-                            TmpLstBx.Items.Add("macos" + AppIDTxtBox.Text);
-                            break;
-                    }
+                    TmpLstBx.Items.Add(appcheck);
                     AppIDTxtBox.Text="";
                     StartBtn.Enabled = true;
                 }
@@ -271,6 +267,13 @@ namespace SuperSteamPacker
             {
                 MessageBox.Show(languageini.Read("AlreadyAdded", "SSP"), languageini.Read("Warning", "SSP"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+
+            BranchNameTxtBox.Enabled=false;
+            BranchNameTxtBox.Text="";
+            BranchPasswordCB.Checked=false;
+            BranchPasswordCB.Enabled=false;
+            BranchPasswordTxtBox.Text="";
+            BranchPasswordTxtBox.Enabled=false;
         }
 
         private void DelBtn_Click(object sender, EventArgs e)
@@ -378,6 +381,10 @@ namespace SuperSteamPacker
             {
                 Directory.Delete("SteamCMD\\depotcache", true);
             }
+            if (Directory.Exists("SteamCMD\\logs"))
+            {
+                Directory.Delete("SteamCMD\\logs", true);
+            }
 
             var settingsini = new Ini("Settings.ini");
             var globalini = new Ini("Language\\Global.ini");
@@ -418,10 +425,9 @@ namespace SuperSteamPacker
                 for (int i = 0; i < TmpLstBx.Items.Count; i++)
                 {
                     TmpLstBx.SelectedIndex = i;
-                    string workinput = TmpLstBx.SelectedItem.ToString();
-                    string appid = workinput.Substring(5);
                     string os = "";
-                    switch (workinput.Substring(0, 5))
+                    string[] workarray = TmpLstBx.SelectedItem.ToString().Split('|');
+                    switch (workarray[0])
                     {
                         case "win64":
                             os = "\n@sSteamCmdForcePlatformType windows\n@sSteamCmdForcePlatformBitness 64";
@@ -430,26 +436,66 @@ namespace SuperSteamPacker
                             os = "\n@sSteamCmdForcePlatformType windows\n@sSteamCmdForcePlatformBitness 32";
                             break;
                         case "macos":
-                        case "linux":
-                            os = "\n@sSteamCmdForcePlatformType " + workinput.Substring(0, 5);
+                            os = "\n@sSteamCmdForcePlatformType " + workarray[0];
+                            break;
+                        case "lin32":
+                            os = "\n@sSteamCmdForcePlatformType linux\n@sSteamCmdForcePlatformBitness 32";
+                            break;
+                        case "lin64":
+                            os = "\n@sSteamCmdForcePlatformType linux\n@sSteamCmdForcePlatformBitness 64";
                             break;
                     }
-                    if (i == 0)
+                    if (workarray[2].ToLower() == "public")
                     {
-                        File.WriteAllText("Jobs\\" + i + "_" + appid + "_" + workinput.Substring(0, 5) + ".JOB", "login " + UsernameTextBox.Text + " " + PasswordTextBox.Text + os + "\napp_update " + appid +" validate\nquit");
+                        if (i == 0)
+                        {
+                            File.WriteAllText("Jobs\\" + i + "_" + workarray[1] + "_" + workarray[0] + ".JOB", "login " + UsernameTextBox.Text + " " + PasswordTextBox.Text + os + "\napp_update " + workarray[1] +" validate\nquit");
+                        }
+                        else
+                        {
+                            File.WriteAllText("Jobs\\" + i + "_" + workarray[1] + "_" + workarray[0] + ".JOB", "login " + UsernameTextBox.Text + os + "\napp_update " + workarray[1] +" validate\nquit");
+                        }
                     }
-                    else
+                    else //Non public branch code.
                     {
-                        File.WriteAllText("Jobs\\" + i + "_" + appid + "_" + workinput.Substring(0, 5) + ".JOB", "login " + UsernameTextBox.Text + os + "\napp_update " + appid +" validate\nquit");
+                        if (String.IsNullOrEmpty(workarray[3])) //non password protected branch
+                        {
+                            if (i == 0)
+                            {
+                                File.WriteAllText("Jobs\\" + i + "_" + workarray[1] + "_" + workarray[0] + ".JOB", "login " + UsernameTextBox.Text + " " + PasswordTextBox.Text + os + "\napp_update " + workarray[1] + " -beta " + workarray[2] + " validate\nquit");
+                            }
+                            else
+                            {
+                                File.WriteAllText("Jobs\\" + i + "_" + workarray[1] + "_" + workarray[0] + ".JOB", "login " + UsernameTextBox.Text + os + "\napp_update " + workarray[1] + " -beta " + workarray[2] + " validate\nquit");
+                            }
+                        }
+                        else //password protected branch
+                        {
+                            if (i == 0)
+                            {
+                                File.WriteAllText("Jobs\\" + i + "_" + workarray[1] + "_" + workarray[0] + ".JOB", "login " + UsernameTextBox.Text + " " + PasswordTextBox.Text + os + "\napp_update " + workarray[1] + " -beta " + workarray[2] + " -betapassword " + workarray[3] + " validate\nquit");
+                            }
+                            else
+                            {
+                                File.WriteAllText("Jobs\\" + i + "_" + workarray[1] + "_" + workarray[0] + ".JOB", "login " + UsernameTextBox.Text + os + "\napp_update " + workarray[1] + " -beta " + workarray[2] + " -betapassword " + workarray[3] + " validate\nquit");
+                            }
+                        }
+                        
                     }
-                    
                 }
+
                 string[] files = Directory.GetFiles("Jobs", "*.JOB");
 
                 foreach (string file in files)
                 {
                     TmpLstBx.SelectedIndex = int.Parse(file.Substring(5, 1));
-                    string AppID = TmpLstBx.SelectedItem.ToString().Substring(5);
+                    string[] workarray = TmpLstBx.SelectedItem.ToString().Split('|');
+                    string AppID = workarray[1];
+                    string Branch = workarray[2];
+                    if (Branch == "Public")
+                    {
+                        Branch = Branch.ToLower();
+                    }
                     QueueBox.Items[int.Parse(file.Substring(5, 1))] = QueueBox.Items[int.Parse(file.Substring(5, 1))].ToString().Replace(languageini.Read("READY", "SSP"), languageini.Read("GETINFO", "SSP"));
                     var steamGameData = await GetSteamGameDataAsync(AppID);
                     string GameNameEarly = "";
@@ -459,8 +505,7 @@ namespace SuperSteamPacker
                     string[] parts = file.Split('_');
                     if (parts.Length > 2)
                     {
-                        string outputString = parts[2].Substring(0, Math.Min(5, parts[2].Length));
-                        switch (outputString)
+                        switch (parts[2].Substring(0, Math.Min(5, parts[2].Length)))
                         {
                             case "win64":
                                 OS = "Win64";
@@ -471,15 +516,18 @@ namespace SuperSteamPacker
                             case "macos":
                                 OS = "Mac";
                                 break;
-                            case "linux":
-                                OS = "Linux";
+                            case "lin64":
+                                OS = "Linux64";
+                                break;
+                            case "lin32":
+                                OS = "Linux32";
                                 break;
                         }
                     }
                     if (steamGameData != null)
                     {
-                        JToken buildid   = steamGameData["data"][AppID]["depots"]["branches"]["public"]["buildid"];
-                        JToken buildtime = steamGameData["data"][AppID]["depots"]["branches"]["public"]["timeupdated"];
+                        JToken buildid   = steamGameData["data"][AppID]["depots"]["branches"][Branch]["buildid"];
+                        JToken buildtime = steamGameData["data"][AppID]["depots"]["branches"][Branch]["timeupdated"];
                         JToken gamename  = steamGameData["data"][AppID]["common"]["name"];
 
                         DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(buildtime.Value<long>());
@@ -523,21 +571,36 @@ namespace SuperSteamPacker
                     bool failedsubscription = false;
                     bool ratelimited        = false;
                     bool invalidpassword    = false;
-                    bool hascode            = false;
+                    bool steamguardcodefail = false;
 
 
                     if (File.Exists("Logs\\content_log.txt"))
                     {
-                        failedsubscription = File.ReadAllText("Logs\\content_log.txt").Contains("No subscription") ? true : false;
-                        hascode = File.ReadAllText("Logs\\content_log.txt").Contains("apps from install folder") ? true : false;
+                        if (File.ReadAllText("Logs\\content_log.txt").Contains("No subscription"))
+                        {
+                            failedsubscription = true;
+                        }
                     }
                     if (File.Exists("Logs\\connection_log.txt"))
                     {
-                        ratelimited = File.ReadAllText("Logs\\connection_log.txt").Contains("Rate Limit Exceeded") ? true : false;
-                        invalidpassword = File.ReadAllText("Logs\\connection_log.txt").Contains("Invalid Password") ? true : false;
+                        if(File.ReadAllText("Logs\\connection_log.txt").Contains("Rate Limit Exceeded"))
+                        {
+                            ratelimited = true;
+                            MessageBox.Show("RL");
+                        }
+                        if (File.ReadAllText("Logs\\connection_log.txt").Contains("Invalid Password"))
+                        {
+                            invalidpassword = true;
+                            MessageBox.Show("IP");
+                        }
+                    }
+                    if (!File.Exists("Logs\\sitelicense_steamcmd.txt") && !File.Exists("Logs\\compat_log.txt"))
+                    {
+                        steamguardcodefail = true;
+                        MessageBox.Show("SGCF");
                     }
 
-                    if (SteamCMD.ExitCode != 0 || ratelimited || failedsubscription || !hascode || invalidpassword)
+                    if (SteamCMD.ExitCode != 0 || ratelimited || failedsubscription || steamguardcodefail || invalidpassword)
                     {
                         if (Directory.Exists("steamapps"))
                         {
@@ -590,7 +653,7 @@ namespace SuperSteamPacker
                         }
                         else
                         {
-                            if (!hascode || invalidpassword)
+                            if (steamguardcodefail || invalidpassword)
                             {
                                 QueueBox.Items[int.Parse(file.Substring(5, 1))] = QueueBox.Items[int.Parse(file.Substring(5, 1))].ToString().Replace(languageini.Read("DOWNLOADING", "SSP"), languageini.Read("BADLOGIN", "SSP"));
                             }
@@ -637,7 +700,10 @@ namespace SuperSteamPacker
                     char[] forbiddenchars = Path.GetInvalidFileNameChars();
                     GameName = Regex.Replace(GameName, "[" + Regex.Escape(new string(forbiddenchars)) + "]", "");
                     string BuildNo = ReadVDF("Temp\\steamapps\\appmanifest_" + AppID + ".acf", "buildid");
-                    Directory.CreateDirectory("Completed");
+                    if (!Directory.Exists("Completed"))
+                    {
+                        Directory.CreateDirectory("Completed");
+                    }
                     Directory.SetCurrentDirectory("Temp");
                     if (Directory.Exists("steamapps\\workshop"))
                     {
@@ -672,7 +738,7 @@ namespace SuperSteamPacker
                         Compress.StartInfo.FileName = "..\\Compressor\\7z.exe";
                         if (String.IsNullOrEmpty(settingsini.Read("customcompressoption", "SSP")))
                         {
-                            if (File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS + ".7z") || File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS + ".7z.001"))
+                            if (File.Exists("..\\Completed\\"+GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".7z") || File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".7z.001"))
                             {
                                 QueueBox.Items[int.Parse(file.Substring(5, 1))] = QueueBox.Items[int.Parse(file.Substring(5, 1))].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("SKIPPED", "SSP"));
                                 Directory.SetCurrentDirectory("..");
@@ -681,13 +747,13 @@ namespace SuperSteamPacker
                             }
                             else
                             {
-                                Compress.StartInfo.Arguments = "a -mx9 -sdel -pcs.rin.ru -v5g ..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS + ".7z *";
+                                Compress.StartInfo.Arguments = "a -mx9 -sdel -pcs.rin.ru -v5g ..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".7z *";
                             }
                             
                         }
                         else
                         {
-                            if (File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS + ".7z") || File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS + ".7z.001"))
+                            if (File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".7z") || File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".7z.001"))
                             {
                                 QueueBox.Items[int.Parse(file.Substring(5, 1))] = QueueBox.Items[int.Parse(file.Substring(5, 1))].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("SKIPPED", "SSP"));
                                 Directory.SetCurrentDirectory("..");
@@ -696,7 +762,7 @@ namespace SuperSteamPacker
                             }
                             else
                             {
-                                Compress.StartInfo.Arguments = "a " + settingsini.Read("customcompressoption", "SSP") + " ..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS + ".7z *";
+                                Compress.StartInfo.Arguments = "a " + settingsini.Read("customcompressoption", "SSP") + " ..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".7z *";
                             }
                         }
                     }
@@ -705,7 +771,7 @@ namespace SuperSteamPacker
                         Compress.StartInfo.FileName = "..\\Compressor\\rar.exe";
                         if (String.IsNullOrEmpty(settingsini.Read("customcompressoption", "SSP")))
                         {
-                            if (File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS + ".rar") || File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS + ".part1.rar"))
+                            if (File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".rar") || File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".part1.rar"))
                             {
                                 QueueBox.Items[int.Parse(file.Substring(5, 1))] = QueueBox.Items[int.Parse(file.Substring(5, 1))].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("SKIPPED", "SSP"));
                                 Directory.SetCurrentDirectory("..");
@@ -714,12 +780,12 @@ namespace SuperSteamPacker
                             }
                             else
                             {
-                                Compress.StartInfo.Arguments = "a -df -hpcs.rin.ru -htc -v5000000k -r ..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS + ".rar *";
+                                Compress.StartInfo.Arguments = "a -df -hpcs.rin.ru -htc -v5000000k -r ..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".rar *";
                             }
                         }
                         else
                         {
-                            if (File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS + ".rar") || File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS + ".part1.rar"))
+                            if (File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".rar") || File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".part1.rar"))
                             {
                                 QueueBox.Items[int.Parse(file.Substring(5, 1))] = QueueBox.Items[int.Parse(file.Substring(5, 1))].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("SKIPPED", "SSP"));
                                 Directory.SetCurrentDirectory("..");
@@ -728,7 +794,7 @@ namespace SuperSteamPacker
                             }
                             else
                             {
-                                Compress.StartInfo.Arguments = "a " + settingsini.Read("customcompressoption", "SSP") + " ..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS + ".rar *";
+                                Compress.StartInfo.Arguments = "a " + settingsini.Read("customcompressoption", "SSP") + " ..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".rar *";
                             }
                         }
                     }
@@ -740,18 +806,18 @@ namespace SuperSteamPacker
                         QueueBox.Items[int.Parse(file.Substring(5, 1))] = QueueBox.Items[int.Parse(file.Substring(5, 1))].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("FAIL", "SSP"));
                         Directory.SetCurrentDirectory("..");
                         DirectoryInfo directoryInfo = new DirectoryInfo("Completed");
-                        foreach (FileInfo fileToDelete in directoryInfo.GetFiles(GameName+".Build."+BuildNo+"."+OS+".*"))
+                        foreach (FileInfo fileToDelete in directoryInfo.GetFiles(GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".*"))
                         {
                             fileToDelete.Delete();
                         }
                         continue;
                     }
 
-                    if (!File.Exists("..\\Completed\\"+ GameName+".Build."+BuildNo+"."+OS + ".7z.002") && settingsini.Read("compressor", "SSP") == "7z")
+                    if (!File.Exists("..\\Completed\\"+ GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".7z.002") && settingsini.Read("compressor", "SSP") == "7z")
                     {
-                        if (File.Exists("..\\Completed\\"+ GameName+".Build."+BuildNo+"."+OS + ".7z.001"))
+                        if (File.Exists("..\\Completed\\"+ GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".7z.001"))
                         {
-                            File.Move("..\\Completed\\"+ GameName+".Build."+BuildNo+"."+OS + ".7z.001", "..\\Completed\\"+ GameName+".Build."+BuildNo+"."+OS + ".7z");
+                            File.Move("..\\Completed\\"+ GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".7z.001", "..\\Completed\\"+ GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".7z");
                         }
                         
                     }
@@ -759,11 +825,11 @@ namespace SuperSteamPacker
                     Directory.Delete("Temp", true);
                     QueueBox.Items[int.Parse(file.Substring(5, 1))] = QueueBox.Items[int.Parse(file.Substring(5, 1))].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("WRITINGINFO", "SSP"));
 
-                    using (StreamWriter RINfo = new StreamWriter("Completed\\[CS.RIN.RU Info] " + GameName+".Build."+BuildNo+"."+OS+".txt"))
+                    using (StreamWriter RINfo = new StreamWriter("Completed\\[CS.RIN.RU Info] " + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".txt"))
                     {
                         GameName = GameName.Replace("_", " ");
                         GameName = GameName.Replace(".", " ");
-                        RINfo.WriteLine("[url=][color=white][b]" + GameName + " (Clean Steam Files)[/b][/color][/url]");
+                        RINfo.WriteLine("[url=][color=white][b]" + GameName + " [Branch: " + workarray[2] + "] (Clean Steam Files)[/b][/color][/url]");
                         RINfo.WriteLine("[size=85][color=white][b]Version:[/b] [i]" + BuildTime + " [Build " + BuildNo + "][/i][/color][/size]");
                         RINfo.WriteLine();
                         RINfo.WriteLine("[spoiler=\"[color=white]Depots & Manifests[/color]\"][code=text]");
@@ -772,6 +838,28 @@ namespace SuperSteamPacker
                             RINfo.WriteLine(item);
                         }
                         RINfo.WriteLine("[/code][/spoiler][color=white][b]Uploaded version:[/b] [i]" + BuildTime + " [Build " + BuildNo + "][/i][/color]");
+                    }
+
+                    if (settingsini.Read("uploadcrewmode", "SSP") == "1")
+                    {
+                        using (StreamWriter UCInfo = new StreamWriter("Completed\\[Upload Crew Info] " + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".txt"))
+                        {
+                            GameName = GameName.Replace("_", " ");
+                            GameName = GameName.Replace(".", " ");
+                            UCInfo.WriteLine("[color=red][b]" + GameName + "[/b][/color]");
+                            UCInfo.WriteLine("[list][color=yellow][b]Mirror 1[/b][/color]");
+                            UCInfo.WriteLine("[url=][color=cyan]" + GameName + "[/color] | [color=#FF8000]#UploadDate#[/color][/url] (#Filehost#) [i]< uploaded by #YourUsernameHere# / pw: cs.rin.ru >[/i][/list]");
+                            UCInfo.WriteLine();
+                            UCInfo.WriteLine();
+                            UCInfo.WriteLine();
+                            UCInfo.WriteLine("[color=red][b]" + GameName + "[/b][/color]");
+                            UCInfo.WriteLine("[spoiler=\"[color=white]Depots & Manifests[/color]\"][code=text]");
+                            foreach (string item in DepotManifestList)
+                            {
+                                UCInfo.WriteLine(item);
+                            }
+                            UCInfo.WriteLine("[/code][/spoiler][color=white][b]Uploaded version:[/b] [i]" + BuildTime + " [Build " + BuildNo + "][/i][/color]");
+                        }
                     }
 
                     QueueBox.Items[int.Parse(file.Substring(5, 1))] = QueueBox.Items[int.Parse(file.Substring(5, 1))].ToString().Replace(languageini.Read("WRITINGINFO", "SSP"), languageini.Read("COMPLETE", "SSP"));
@@ -831,6 +919,9 @@ namespace SuperSteamPacker
             QueueBox.Items.Clear();
             AppIDTxtBox.Enabled = true;
             OSBox.Enabled = true;
+            BranchNameTxtBox.Enabled=false;
+            BranchPasswordCB.Enabled=false;
+            BranchPasswordTxtBox.Enabled=false;
 
         }
 
@@ -938,7 +1029,8 @@ namespace SuperSteamPacker
                 foreach (string line in lines)
                 {
                     TmpLstBx.Items.Add(line);
-                    string os = line.Substring(0, 5);
+                    string[] workarray = line.Split('|');
+                    string os = workarray[0];
                     switch (os)
                     {
                         case "win64":
@@ -950,17 +1042,20 @@ namespace SuperSteamPacker
                         case "macos":
                             os = "Mac";
                             break;
-                        case "linux":
-                            os = "Linux";
+                        case "lin32":
+                            os = "Linux x86";
+                            break;
+                        case "lin64":
+                            os = "Linux x64";
                             break;
                     }
-                    if (os == "Mac" || os == "Linux")
+                    if (os == "Mac")
                     {
-                        QueueBox.Items.Add("AppID: " + line.Substring(5) + "\t\t" + "OS: " + os + "\t\t\t" + languageini.Read("Status", "SSP") + ":" + " " + languageini.Read("READY", "SSP"));
+                        QueueBox.Items.Add("AppID: " + workarray[1] + "\t" + "Branch: " + workarray[2] + "\t\t" + "OS: " + os + "\t\t" + languageini.Read("Status", "SSP") + ":" + " " + languageini.Read("READY", "SSP"));
                     }
                     else
                     {
-                        QueueBox.Items.Add("AppID: " + line.Substring(5) + "\t\t" + "OS: " + os + "\t\t" + languageini.Read("Status", "SSP") + ":" + " " + languageini.Read("READY", "SSP"));
+                        QueueBox.Items.Add("AppID: " + workarray[1] + "\t" + "Branch: " + workarray[2] + "\t" + "OS: " + os + "\t" + languageini.Read("Status", "SSP") + ":" + " " + languageini.Read("READY", "SSP"));
                     }
 
                     DelBtn.Enabled = true;
@@ -975,17 +1070,53 @@ namespace SuperSteamPacker
         {
             AddBtn.Enabled = true;
             OSBox.Enabled  = true;
+            BranchNameTxtBox.Enabled = true;
+            BranchNameTxtBox.Text = "Public";
         }
 
         static async Task<JObject> GetSteamGameDataAsync(string appId)
         {
-            using (var httpClient = new HttpClient())
+            try
             {
-                var url = $"https://api.steamcmd.net/v1/info/{appId}";
-                var response = await httpClient.GetAsync(url);
-                response.EnsureSuccessStatusCode();
-                var jsonString = await response.Content.ReadAsStringAsync();
-                return JObject.Parse(jsonString);
+                using (var httpClient = new HttpClient())
+                {
+                    var url = $"https://api.steamcmd.net/v1/info/{appId}";
+                    var response = await httpClient.GetAsync(url);
+                    response.EnsureSuccessStatusCode();
+                    var jsonString = await response.Content.ReadAsStringAsync();
+                    return JObject.Parse(jsonString);
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private void BranchPasswordCB_CheckedChanged(object sender, EventArgs e)
+        {
+            if (BranchPasswordCB.Checked)
+            {
+                BranchPasswordTxtBox.Enabled = true;
+            }
+            else
+            {
+                BranchPasswordTxtBox.Enabled = false;
+            }
+        }
+
+        private void BranchNameTxtBox_TextChanged(object sender, EventArgs e)
+        {
+            if (!(BranchNameTxtBox.Text.ToLower() == "public"))
+            {
+                BranchPasswordCB.Enabled = true;
+            }
+            else
+            {
+                BranchPasswordTxtBox.Enabled = false;
+                BranchPasswordCB.Enabled = false;
+                BranchPasswordTxtBox.Text = "";
+                BranchPasswordCB.Checked = false;
             }
         }
     }

@@ -36,13 +36,14 @@
             this.CompressorChoiceBox = new System.Windows.Forms.ComboBox();
             this.CustomCompressorOptionsCheckBox = new System.Windows.Forms.CheckBox();
             this.CustomCompressorOptionsTextBox = new System.Windows.Forms.TextBox();
+            this.UploadCrewModeCB = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // DelSavedLoginBtn
             // 
-            this.DelSavedLoginBtn.Location = new System.Drawing.Point(12, 157);
+            this.DelSavedLoginBtn.Location = new System.Drawing.Point(12, 184);
             this.DelSavedLoginBtn.Name = "DelSavedLoginBtn";
-            this.DelSavedLoginBtn.Size = new System.Drawing.Size(279, 23);
+            this.DelSavedLoginBtn.Size = new System.Drawing.Size(280, 23);
             this.DelSavedLoginBtn.TabIndex = 0;
             this.DelSavedLoginBtn.Text = "DelSavedLoginBtn";
             this.DelSavedLoginBtn.UseVisualStyleBackColor = true;
@@ -72,7 +73,7 @@
             this.LangChoiceBox.FormattingEnabled = true;
             this.LangChoiceBox.Location = new System.Drawing.Point(13, 30);
             this.LangChoiceBox.Name = "LangChoiceBox";
-            this.LangChoiceBox.Size = new System.Drawing.Size(278, 21);
+            this.LangChoiceBox.Size = new System.Drawing.Size(280, 21);
             this.LangChoiceBox.TabIndex = 3;
             this.LangChoiceBox.SelectedIndexChanged += new System.EventHandler(this.LangChoiceBox_SelectedIndexChanged);
             // 
@@ -85,7 +86,7 @@
             "WinRAR"});
             this.CompressorChoiceBox.Location = new System.Drawing.Point(12, 79);
             this.CompressorChoiceBox.Name = "CompressorChoiceBox";
-            this.CompressorChoiceBox.Size = new System.Drawing.Size(279, 21);
+            this.CompressorChoiceBox.Size = new System.Drawing.Size(280, 21);
             this.CompressorChoiceBox.TabIndex = 4;
             this.CompressorChoiceBox.SelectedIndexChanged += new System.EventHandler(this.CompressorChoiceBox_SelectedIndexChanged);
             // 
@@ -104,17 +105,29 @@
             // 
             this.CustomCompressorOptionsTextBox.Location = new System.Drawing.Point(12, 131);
             this.CustomCompressorOptionsTextBox.Name = "CustomCompressorOptionsTextBox";
-            this.CustomCompressorOptionsTextBox.Size = new System.Drawing.Size(279, 20);
+            this.CustomCompressorOptionsTextBox.Size = new System.Drawing.Size(280, 20);
             this.CustomCompressorOptionsTextBox.TabIndex = 6;
             this.CustomCompressorOptionsTextBox.WordWrap = false;
             this.CustomCompressorOptionsTextBox.TextChanged += new System.EventHandler(this.CustomCompressorOptionsTextBox_TextChanged);
+            // 
+            // UploadCrewModeCB
+            // 
+            this.UploadCrewModeCB.AutoSize = true;
+            this.UploadCrewModeCB.Location = new System.Drawing.Point(12, 159);
+            this.UploadCrewModeCB.Name = "UploadCrewModeCB";
+            this.UploadCrewModeCB.Size = new System.Drawing.Size(160, 17);
+            this.UploadCrewModeCB.TabIndex = 7;
+            this.UploadCrewModeCB.Text = "UploadCrewModeCheckBox";
+            this.UploadCrewModeCB.UseVisualStyleBackColor = true;
+            this.UploadCrewModeCB.CheckedChanged += new System.EventHandler(this.UploadCrewModeCB_CheckedChanged);
             // 
             // MoreSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(303, 191);
+            this.ClientSize = new System.Drawing.Size(303, 217);
+            this.Controls.Add(this.UploadCrewModeCB);
             this.Controls.Add(this.CustomCompressorOptionsTextBox);
             this.Controls.Add(this.CustomCompressorOptionsCheckBox);
             this.Controls.Add(this.CompressorChoiceBox);
@@ -127,7 +140,6 @@
             this.Name = "MoreSettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MoreSettingsForm";
-            this.Load += new System.EventHandler(this.MoreSettingsForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -142,5 +154,6 @@
         private System.Windows.Forms.ComboBox CompressorChoiceBox;
         private System.Windows.Forms.CheckBox CustomCompressorOptionsCheckBox;
         private System.Windows.Forms.TextBox CustomCompressorOptionsTextBox;
+        private System.Windows.Forms.CheckBox UploadCrewModeCB;
     }
 }

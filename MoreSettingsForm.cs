@@ -48,24 +48,26 @@ namespace SuperSteamPacker
                 CustomCompressorOptionsCheckBox.Checked = true;
             }
 
+            if (settingsini.Read("uploadcrewmode", "SSP") == "1")
+            {
+                UploadCrewModeCB.Checked = true;
+            }
+
             string readlanguage = settingsini.Read("language", "SSP");
             var languageini = new Ini("Language\\" + readlanguage + ".ini");
 
-            this.Text = languageini.Read("MoreSettings", "SSP");
+            Text = languageini.Read("MoreSettings", "SSP");
             LangLabel.Text = languageini.Read("Language","SSP") + ":";
             CompressorLabel.Text = languageini.Read("Compressor", "SSP") + ":";
             CustomCompressorOptionsCheckBox.Text = languageini.Read("customcompressoroptions", "SSP");
             DelSavedLoginBtn.Text = languageini.Read("DeleteSavedLogin", "SSP");
+            UploadCrewModeCB.Text = languageini.Read("UploadCrewMode", "SSP");
         }
 
         private void DelSavedLoginBtn_Click(object sender, EventArgs e)
         {
             File.Delete("userdata.ini");
             DelSavedLoginBtn.Enabled = false;
-        }
-
-        private void MoreSettingsForm_Load(object sender, EventArgs e)
-        {
         }
 
         private void LangChoiceBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -124,6 +126,20 @@ namespace SuperSteamPacker
                     break;
             }
             
+        }
+
+        private void UploadCrewModeCB_CheckedChanged(object sender, EventArgs e)
+        {
+            var settingsini = new Ini("Settings.ini");
+            switch (UploadCrewModeCB.Checked)
+            {
+                case true:
+                    settingsini.Write("uploadcrewmode", "1", "SSP");
+                    break;
+                case false:
+                    settingsini.Write("uploadcrewmode", "0", "SSP");
+                    break;
+            }
         }
     }
 }
