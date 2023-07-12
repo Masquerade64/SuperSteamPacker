@@ -1,0 +1,61 @@
+#
+# Super Steam Packer Language File
+# French by Titeuf
+#
+
+[SSP]
+by=par
+queue=File d'attente
+add=Ajouter a la file
+del=Supprimer de la file d'attente
+ClearQueue=Effacer la file d'attente
+AppIDInfoMsg1=L'AppID du jeu que vous souhaitez telecharger.
+AppIDInfoMsg2=Peut etre trouve ici:
+OSMsg1=Version du systeme d'exploitation a telecharger.
+OSMsg2=Veuillez noter que tous les jeux ne sont pas disponibles sur plus d'un systeme d'exploitation. Consultez SteamDB pour obtenir des informations specifiques au jeu !
+AppIDWarning=Veuillez entrer un AppID valide.
+Warning=Avertissement!
+Status=Statut
+Forum=Forum
+READY=PRET
+DOWNLOADING=TELECHARGEMENT
+COMPRESSING=COMPRESSION
+COMPLETE=COMPLET
+FAIL=ECHOUE
+RATELIMITED=TAUX LIMITE
+BADLOGIN=MAUVAISE CONNEXION
+SKIPPED=Ignore [EXISTE]
+GETINFO=OBTENIR DES INFORMATIONS
+UNABLETOREACH=IMPOSSIBLE D'ATTEINDRE L'API
+WRITINGINFO=WRITING INFO
+Start=Commencer
+Username=Nom d'utilisateur Steam:
+Password=Mot de passe Steam:
+AlreadyAdded=Article deja ajoute a la file d'attente !
+SaveLogin=Enregistrer les infos de connexion
+LoginSaveWarning1=En appuyant sur OK, vous comprenez que vos informations de connexion seront stockees par ce programme.
+LoginSaveWarning2=Ces donnees sont stockees localement et ne sont pas envoyees sur Internet!
+MoreSettings=Plus de reglages
+Information=Information
+pleaseselectwarning=Veuillez selectionner un element a supprimer.
+Language=Langue
+Compressor=Compresseur
+customcompressoroptions=Utiliser les options de compression personnalisees:
+DeleteSavedLogin=Supprimer les donnees de connexion enregistrees
+jobscomplete=Tous les travaux sont termines!
+jobscomplete2=Appuyer sur OK effacera la file d'attente.
+compressionwarning1=Les parametres par defaut seront ideaux pour la plupart des utilisateurs.
+compressionwarning2=Ne changez cela que si vous savez ce que vous faites!
+loginwarning=Veuillez entrer des informations de connexion valides.
+anonymousconfirmation=En continuant, vous utiliserez une connexion anonyme. Cela reduit considerablement ce que vous pouvez telecharger depuis Steam!
+MoveUp=Deplacer l'element vers le haut
+MoveDown=Deplacer l'element vers le bas
+Import=Importer File d'attente
+Export=Exporter File d'attente
+RateLimitWarn=Votre taux est limite, ce qui signifie que Steam vous a bloque la connexion. Veuillez choisir de continuer (non recommande) ou reessayer plus tard. Continuer?
+QueueManageGroup=Gestionnaire de file d'attente
+GameManageGroup=Gestionnaire de jeu
+BranchManagerGroup=Branch Manager
+BranchLabel=Branche a telecharger:
+BranchPassword=Branch password? (Enter below)
+UploadCrewMode=Upload Crew Mode
