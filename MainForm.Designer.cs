@@ -73,6 +73,7 @@
             this.OSBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             this.OSBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.OSBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OSBox.ForeColor = System.Drawing.Color.White;
             this.OSBox.FormattingEnabled = true;
             this.OSBox.Items.AddRange(new object[] {
             "Linux x86",
@@ -114,6 +115,7 @@
             this.AppIDTxtBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             this.AppIDTxtBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.AppIDTxtBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AppIDTxtBox.ForeColor = System.Drawing.Color.White;
             this.AppIDTxtBox.Location = new System.Drawing.Point(52, 27);
             this.AppIDTxtBox.Name = "AppIDTxtBox";
             this.AppIDTxtBox.Size = new System.Drawing.Size(151, 20);
@@ -231,6 +233,7 @@
             // 
             this.UsernameTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             this.UsernameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.UsernameTextBox.ForeColor = System.Drawing.Color.White;
             this.UsernameTextBox.Location = new System.Drawing.Point(464, 119);
             this.UsernameTextBox.Name = "UsernameTextBox";
             this.UsernameTextBox.Size = new System.Drawing.Size(204, 20);
@@ -257,6 +260,7 @@
             // 
             this.PasswordTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             this.PasswordTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PasswordTextBox.ForeColor = System.Drawing.Color.White;
             this.PasswordTextBox.Location = new System.Drawing.Point(464, 164);
             this.PasswordTextBox.Name = "PasswordTextBox";
             this.PasswordTextBox.PasswordChar = '*';
@@ -465,6 +469,7 @@
             this.BranchPasswordTxtBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             this.BranchPasswordTxtBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.BranchPasswordTxtBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BranchPasswordTxtBox.ForeColor = System.Drawing.Color.White;
             this.BranchPasswordTxtBox.Location = new System.Drawing.Point(203, 47);
             this.BranchPasswordTxtBox.Name = "BranchPasswordTxtBox";
             this.BranchPasswordTxtBox.Size = new System.Drawing.Size(200, 20);
@@ -485,6 +490,7 @@
             this.BranchNameTxtBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             this.BranchNameTxtBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.BranchNameTxtBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BranchNameTxtBox.ForeColor = System.Drawing.Color.White;
             this.BranchNameTxtBox.Location = new System.Drawing.Point(6, 47);
             this.BranchNameTxtBox.Name = "BranchNameTxtBox";
             this.BranchNameTxtBox.Size = new System.Drawing.Size(192, 20);
