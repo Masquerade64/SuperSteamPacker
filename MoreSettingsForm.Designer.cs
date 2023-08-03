@@ -41,17 +41,22 @@
             // 
             // DelSavedLoginBtn
             // 
+            this.DelSavedLoginBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.DelSavedLoginBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.DelSavedLoginBtn.ForeColor = System.Drawing.Color.White;
             this.DelSavedLoginBtn.Location = new System.Drawing.Point(12, 184);
             this.DelSavedLoginBtn.Name = "DelSavedLoginBtn";
             this.DelSavedLoginBtn.Size = new System.Drawing.Size(280, 23);
             this.DelSavedLoginBtn.TabIndex = 0;
             this.DelSavedLoginBtn.Text = "DelSavedLoginBtn";
-            this.DelSavedLoginBtn.UseVisualStyleBackColor = true;
+            this.DelSavedLoginBtn.UseVisualStyleBackColor = false;
             this.DelSavedLoginBtn.Click += new System.EventHandler(this.DelSavedLoginBtn_Click);
             // 
             // CompressorLabel
             // 
             this.CompressorLabel.AutoSize = true;
+            this.CompressorLabel.BackColor = System.Drawing.Color.Transparent;
+            this.CompressorLabel.ForeColor = System.Drawing.Color.White;
             this.CompressorLabel.Location = new System.Drawing.Point(9, 59);
             this.CompressorLabel.Name = "CompressorLabel";
             this.CompressorLabel.Size = new System.Drawing.Size(88, 13);
@@ -61,6 +66,8 @@
             // LangLabel
             // 
             this.LangLabel.AutoSize = true;
+            this.LangLabel.BackColor = System.Drawing.Color.Transparent;
+            this.LangLabel.ForeColor = System.Drawing.Color.White;
             this.LangLabel.Location = new System.Drawing.Point(9, 9);
             this.LangLabel.Name = "LangLabel";
             this.LangLabel.Size = new System.Drawing.Size(57, 13);
@@ -69,9 +76,11 @@
             // 
             // LangChoiceBox
             // 
-            this.LangChoiceBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.LangChoiceBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.LangChoiceBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.LangChoiceBox.ForeColor = System.Drawing.Color.White;
             this.LangChoiceBox.FormattingEnabled = true;
-            this.LangChoiceBox.Location = new System.Drawing.Point(13, 30);
+            this.LangChoiceBox.Location = new System.Drawing.Point(12, 30);
             this.LangChoiceBox.Name = "LangChoiceBox";
             this.LangChoiceBox.Size = new System.Drawing.Size(280, 21);
             this.LangChoiceBox.TabIndex = 3;
@@ -79,7 +88,9 @@
             // 
             // CompressorChoiceBox
             // 
-            this.CompressorChoiceBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CompressorChoiceBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.CompressorChoiceBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CompressorChoiceBox.ForeColor = System.Drawing.Color.White;
             this.CompressorChoiceBox.FormattingEnabled = true;
             this.CompressorChoiceBox.Items.AddRange(new object[] {
             "7-Zip",
@@ -93,16 +104,21 @@
             // CustomCompressorOptionsCheckBox
             // 
             this.CustomCompressorOptionsCheckBox.AutoSize = true;
+            this.CustomCompressorOptionsCheckBox.BackColor = System.Drawing.Color.Transparent;
+            this.CustomCompressorOptionsCheckBox.ForeColor = System.Drawing.Color.White;
             this.CustomCompressorOptionsCheckBox.Location = new System.Drawing.Point(12, 107);
             this.CustomCompressorOptionsCheckBox.Name = "CustomCompressorOptionsCheckBox";
             this.CustomCompressorOptionsCheckBox.Size = new System.Drawing.Size(201, 17);
             this.CustomCompressorOptionsCheckBox.TabIndex = 5;
             this.CustomCompressorOptionsCheckBox.Text = "CustomCompressorOptionsCheckBox";
-            this.CustomCompressorOptionsCheckBox.UseVisualStyleBackColor = true;
+            this.CustomCompressorOptionsCheckBox.UseVisualStyleBackColor = false;
             this.CustomCompressorOptionsCheckBox.CheckedChanged += new System.EventHandler(this.CustomCompressorOptionsCheckBox_CheckedChanged);
             // 
             // CustomCompressorOptionsTextBox
             // 
+            this.CustomCompressorOptionsTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.CustomCompressorOptionsTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.CustomCompressorOptionsTextBox.ForeColor = System.Drawing.Color.White;
             this.CustomCompressorOptionsTextBox.Location = new System.Drawing.Point(12, 131);
             this.CustomCompressorOptionsTextBox.Name = "CustomCompressorOptionsTextBox";
             this.CustomCompressorOptionsTextBox.Size = new System.Drawing.Size(280, 20);
@@ -113,19 +129,21 @@
             // UploadCrewModeCB
             // 
             this.UploadCrewModeCB.AutoSize = true;
+            this.UploadCrewModeCB.BackColor = System.Drawing.Color.Transparent;
+            this.UploadCrewModeCB.ForeColor = System.Drawing.Color.White;
             this.UploadCrewModeCB.Location = new System.Drawing.Point(12, 159);
             this.UploadCrewModeCB.Name = "UploadCrewModeCB";
             this.UploadCrewModeCB.Size = new System.Drawing.Size(160, 17);
             this.UploadCrewModeCB.TabIndex = 7;
             this.UploadCrewModeCB.Text = "UploadCrewModeCheckBox";
-            this.UploadCrewModeCB.UseVisualStyleBackColor = true;
+            this.UploadCrewModeCB.UseVisualStyleBackColor = false;
             this.UploadCrewModeCB.CheckedChanged += new System.EventHandler(this.UploadCrewModeCB_CheckedChanged);
             // 
             // MoreSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Window;
+            this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(303, 217);
             this.Controls.Add(this.UploadCrewModeCB);
             this.Controls.Add(this.CustomCompressorOptionsTextBox);
@@ -135,6 +153,7 @@
             this.Controls.Add(this.LangLabel);
             this.Controls.Add(this.CompressorLabel);
             this.Controls.Add(this.DelSavedLoginBtn);
+            this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MoreSettingsForm";
