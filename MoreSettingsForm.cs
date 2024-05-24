@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using System.Drawing;
+using System.Net;
 
 namespace SuperSteamPacker
 {
@@ -48,9 +50,21 @@ namespace SuperSteamPacker
                 CustomCompressorOptionsCheckBox.Checked = true;
             }
 
+            rinruUsernameTextbox.Enabled = false;
+            filehostTextbox.Enabled      = false;
+
             if (settingsini.Read("uploadcrewmode", "SSP") == "1")
             {
                 UploadCrewModeCB.Checked = true;
+                rinruUsernameTextbox.Enabled = true;
+                rinruUsernameTextbox.Text = settingsini.Read("rinruusername", "SSP");
+                filehostTextbox.Enabled = true;
+                filehostTextbox.Text = settingsini.Read("filehost", "SSP");
+            }
+
+            if (settingsini.Read("darkmode", "SSP") == "1")
+            {
+                DarkModeCB.Checked = true;
             }
 
             string readlanguage = settingsini.Read("language", "SSP");
@@ -62,6 +76,38 @@ namespace SuperSteamPacker
             CustomCompressorOptionsCheckBox.Text = languageini.Read("customcompressoroptions", "SSP");
             DelSavedLoginBtn.Text = languageini.Read("DeleteSavedLogin", "SSP");
             UploadCrewModeCB.Text = languageini.Read("UploadCrewMode", "SSP");
+            DarkModeCB.Text = languageini.Read("DarkMode", "SSP");
+            DepotSyncBtn.Text = languageini.Read("SyncDepots", "SSP");
+            rinruUsernameLabel.Text = languageini.Read("rinruUsername", "SSP");
+            filehostLabel.Text = languageini.Read("filehost", "SSP");
+
+            if (settingsini.Read("darkmode", "SSP") == "1")
+            {
+                LangLabel.ForeColor                        = Color.White;
+                CompressorLabel.ForeColor                  = Color.White;
+                CompressorLabel.ForeColor                  = Color.White;
+                CustomCompressorOptionsCheckBox.ForeColor  = Color.White;
+                UploadCrewModeCB.ForeColor                 = Color.White;
+                DarkModeCB.ForeColor                       = Color.White;
+                BackColor                                  = Color.FromArgb(35,35,40);
+                DelSavedLoginBtn.BackColor                 = Color.FromArgb(60,60,69);
+                DelSavedLoginBtn.ForeColor                 = Color.White;
+                DelSavedLoginBtn.FlatStyle                 = FlatStyle.Flat;
+                CustomCompressorOptionsTextBox.ForeColor   = Color.White;
+                CustomCompressorOptionsTextBox.BackColor   = Color.FromArgb(60, 60, 69);
+                CustomCompressorOptionsTextBox.BorderStyle = BorderStyle.FixedSingle;
+                DepotSyncBtn.BackColor                     = Color.FromArgb(60, 60, 69);
+                DepotSyncBtn.ForeColor                     = Color.White;
+                DepotSyncBtn.FlatStyle                     = FlatStyle.Flat;
+                rinruUsernameLabel.ForeColor               = Color.White;
+                rinruUsernameTextbox.ForeColor             = Color.White;
+                rinruUsernameTextbox.BackColor             = Color.FromArgb(60, 60, 69);
+                rinruUsernameTextbox.BorderStyle           = BorderStyle.FixedSingle;
+                filehostLabel.ForeColor                    = Color.White;
+                filehostTextbox.ForeColor             = Color.White;
+                filehostTextbox.BackColor             = Color.FromArgb(60, 60, 69);
+                filehostTextbox.BorderStyle           = BorderStyle.FixedSingle;
+            }
         }
 
         private void DelSavedLoginBtn_Click(object sender, EventArgs e)
@@ -135,11 +181,62 @@ namespace SuperSteamPacker
             {
                 case true:
                     settingsini.Write("uploadcrewmode", "1", "SSP");
+                    rinruUsernameTextbox.Enabled = true;
+                    filehostTextbox.Enabled = true; 
                     break;
                 case false:
                     settingsini.Write("uploadcrewmode", "0", "SSP");
+                    rinruUsernameTextbox.Enabled = false;
+                    rinruUsernameTextbox.Text = null;
+                    filehostTextbox.Enabled = false;
+                    filehostTextbox.Text = null;
                     break;
             }
+        }
+
+        private void DarkModeCB_CheckedChanged(object sender, EventArgs e)
+        {
+            var settingsini = new Ini("Settings.ini");
+            switch (DarkModeCB.Checked)
+            {
+                case true:
+                    settingsini.Write("darkmode", "1", "SSP");
+                    break;
+                case false:
+                    settingsini.Write("darkmode", "0", "SSP");
+                    break;
+            }
+        }
+
+        private void DepotSyncBtn_Click(object sender, EventArgs e)
+        {
+            var settingsini = new Ini("Settings.ini");
+            var globalini = new Ini("Language\\Global.ini");
+            string readlanguage = settingsini.Read("language", "SSP");
+            var languageini = new Ini("Language\\" + readlanguage + ".ini");
+            try
+            {
+                var client = new WebClient();
+                client.DownloadFile("https://raw.githubusercontent.com/Masquerade64/SteamDepotNames/main/depots.ini", "depots.ini");
+                MessageBox.Show(languageini.Read("depotsyncsuccess", "SSP"), languageini.Read("Information", "SSP"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DepotSyncBtn.Enabled = false;
+            }
+            catch
+            {
+                MessageBox.Show(languageini.Read("unabletoaccessgithub", "SSP"), languageini.Read("Warning", "SSP"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void rinruUsernameTextbox_TextChanged(object sender, EventArgs e)
+        {
+            var settingsini = new Ini("Settings.ini");
+            settingsini.Write("rinruusername", rinruUsernameTextbox.Text, "SSP");
+        }
+
+        private void filehostTextbox_TextChanged(object sender, EventArgs e)
+        {
+            var settingsini = new Ini("Settings.ini");
+            settingsini.Write("filehost", filehostTextbox.Text, "SSP");
         }
     }
 }

@@ -37,11 +37,17 @@
             this.CustomCompressorOptionsCheckBox = new System.Windows.Forms.CheckBox();
             this.CustomCompressorOptionsTextBox = new System.Windows.Forms.TextBox();
             this.UploadCrewModeCB = new System.Windows.Forms.CheckBox();
+            this.DarkModeCB = new System.Windows.Forms.CheckBox();
+            this.DepotSyncBtn = new System.Windows.Forms.Button();
+            this.rinruUsernameTextbox = new System.Windows.Forms.TextBox();
+            this.rinruUsernameLabel = new System.Windows.Forms.Label();
+            this.filehostLabel = new System.Windows.Forms.Label();
+            this.filehostTextbox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // DelSavedLoginBtn
             // 
-            this.DelSavedLoginBtn.Location = new System.Drawing.Point(12, 184);
+            this.DelSavedLoginBtn.Location = new System.Drawing.Point(12, 298);
             this.DelSavedLoginBtn.Name = "DelSavedLoginBtn";
             this.DelSavedLoginBtn.Size = new System.Drawing.Size(280, 23);
             this.DelSavedLoginBtn.TabIndex = 0;
@@ -69,6 +75,7 @@
             // 
             // LangChoiceBox
             // 
+            this.LangChoiceBox.BackColor = System.Drawing.SystemColors.Window;
             this.LangChoiceBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.LangChoiceBox.FormattingEnabled = true;
             this.LangChoiceBox.Location = new System.Drawing.Point(13, 30);
@@ -121,12 +128,73 @@
             this.UploadCrewModeCB.UseVisualStyleBackColor = true;
             this.UploadCrewModeCB.CheckedChanged += new System.EventHandler(this.UploadCrewModeCB_CheckedChanged);
             // 
+            // DarkModeCB
+            // 
+            this.DarkModeCB.AutoSize = true;
+            this.DarkModeCB.Location = new System.Drawing.Point(12, 276);
+            this.DarkModeCB.Name = "DarkModeCB";
+            this.DarkModeCB.Size = new System.Drawing.Size(125, 17);
+            this.DarkModeCB.TabIndex = 8;
+            this.DarkModeCB.Text = "DarkModeCheckBox";
+            this.DarkModeCB.UseVisualStyleBackColor = true;
+            this.DarkModeCB.CheckedChanged += new System.EventHandler(this.DarkModeCB_CheckedChanged);
+            // 
+            // DepotSyncBtn
+            // 
+            this.DepotSyncBtn.Location = new System.Drawing.Point(12, 328);
+            this.DepotSyncBtn.Name = "DepotSyncBtn";
+            this.DepotSyncBtn.Size = new System.Drawing.Size(280, 23);
+            this.DepotSyncBtn.TabIndex = 9;
+            this.DepotSyncBtn.Text = "DepotSyncBtn";
+            this.DepotSyncBtn.UseVisualStyleBackColor = true;
+            this.DepotSyncBtn.Click += new System.EventHandler(this.DepotSyncBtn_Click);
+            // 
+            // rinruUsernameTextbox
+            // 
+            this.rinruUsernameTextbox.Location = new System.Drawing.Point(12, 201);
+            this.rinruUsernameTextbox.Name = "rinruUsernameTextbox";
+            this.rinruUsernameTextbox.Size = new System.Drawing.Size(280, 20);
+            this.rinruUsernameTextbox.TabIndex = 10;
+            this.rinruUsernameTextbox.TextChanged += new System.EventHandler(this.rinruUsernameTextbox_TextChanged);
+            // 
+            // rinruUsernameLabel
+            // 
+            this.rinruUsernameLabel.AutoSize = true;
+            this.rinruUsernameLabel.Location = new System.Drawing.Point(12, 183);
+            this.rinruUsernameLabel.Name = "rinruUsernameLabel";
+            this.rinruUsernameLabel.Size = new System.Drawing.Size(101, 13);
+            this.rinruUsernameLabel.TabIndex = 11;
+            this.rinruUsernameLabel.Text = "rinruUsernameLabel";
+            // 
+            // filehostLabel
+            // 
+            this.filehostLabel.AutoSize = true;
+            this.filehostLabel.Location = new System.Drawing.Point(12, 228);
+            this.filehostLabel.Name = "filehostLabel";
+            this.filehostLabel.Size = new System.Drawing.Size(66, 13);
+            this.filehostLabel.TabIndex = 12;
+            this.filehostLabel.Text = "filehostLabel";
+            // 
+            // filehostTextbox
+            // 
+            this.filehostTextbox.Location = new System.Drawing.Point(12, 246);
+            this.filehostTextbox.Name = "filehostTextbox";
+            this.filehostTextbox.Size = new System.Drawing.Size(281, 20);
+            this.filehostTextbox.TabIndex = 13;
+            this.filehostTextbox.TextChanged += new System.EventHandler(this.filehostTextbox_TextChanged);
+            // 
             // MoreSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(303, 217);
+            this.ClientSize = new System.Drawing.Size(303, 356);
+            this.Controls.Add(this.filehostTextbox);
+            this.Controls.Add(this.filehostLabel);
+            this.Controls.Add(this.rinruUsernameLabel);
+            this.Controls.Add(this.rinruUsernameTextbox);
+            this.Controls.Add(this.DepotSyncBtn);
+            this.Controls.Add(this.DarkModeCB);
             this.Controls.Add(this.UploadCrewModeCB);
             this.Controls.Add(this.CustomCompressorOptionsTextBox);
             this.Controls.Add(this.CustomCompressorOptionsCheckBox);
@@ -155,5 +223,11 @@
         private System.Windows.Forms.CheckBox CustomCompressorOptionsCheckBox;
         private System.Windows.Forms.TextBox CustomCompressorOptionsTextBox;
         private System.Windows.Forms.CheckBox UploadCrewModeCB;
+        private System.Windows.Forms.CheckBox DarkModeCB;
+        private System.Windows.Forms.Button DepotSyncBtn;
+        private System.Windows.Forms.TextBox rinruUsernameTextbox;
+        private System.Windows.Forms.Label rinruUsernameLabel;
+        private System.Windows.Forms.Label filehostLabel;
+        private System.Windows.Forms.TextBox filehostTextbox;
     }
 }

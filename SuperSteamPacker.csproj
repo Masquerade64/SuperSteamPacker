@@ -138,6 +138,7 @@
     <None Include="Resources\French.bin" />
     <None Include="Resources\Global.bin" />
     <None Include="Resources\Settings.bin" />
+    <None Include="Resources\Spanish.bin" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -147,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="application.ico" />
+    <None Include="logo_dark.png" />
     <None Include="Resources\rar.exe" />
     <None Include="Resources\7z.exe" />
   </ItemGroup>
