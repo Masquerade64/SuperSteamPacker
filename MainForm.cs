@@ -41,10 +41,6 @@ namespace SuperSteamPacker
             {
                 File.WriteAllBytes("settings.ini", Properties.Resources.Settings);
             }
-            if (!File.Exists("settings.ini"))
-            {
-                File.WriteAllBytes("settings.ini", Properties.Resources.Settings);
-            }
             if (!Directory.Exists("Language"))
             {
                 Directory.CreateDirectory("Language");
@@ -666,28 +662,37 @@ namespace SuperSteamPacker
                     }
                     if (steamGameData != null)
                     {
-                        try
+                        if (steamGameData["status"].ToString() != "failed")
                         {
-                            JToken buildid = steamGameData["data"][AppID]["depots"]["branches"][Branch]["buildid"];
-                            BuildNoEarly = buildid.Value<string>();
+                            try
+                            {
+                                JToken buildid = steamGameData["data"][AppID]["depots"]["branches"][Branch]["buildid"];
+                                BuildNoEarly = buildid.Value<string>();
+                            }
+                            catch
+                            {
+                                BuildNoEarly = "Unknown";
+                            }
+                            JToken gamename  = steamGameData["data"][AppID]["common"]["name"];
+                            try
+                            {
+                                JToken buildtime = steamGameData["data"][AppID]["depots"]["branches"][Branch]["timeupdated"];
+                                DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(buildtime.Value<long>());
+                                BuildTime = dateTime.ToString("MMMM d, yyyy - HH:mm:ss UTC", System.Globalization.CultureInfo.InvariantCulture);
+                            }
+                            catch
+                            {
+                                BuildTime = "";
+                            }
+                            GameNameEarly = steamGameData["data"][AppID]["common"]["name"].Value<string>();
+                            GameNameEarly = GameNameEarly.Replace(" ", "_");
                         }
-                        catch
+                        else
                         {
                             BuildNoEarly = "Unknown";
+                            BuildTime    = "";
+                            GameNameEarly= "";
                         }
-                        JToken gamename  = steamGameData["data"][AppID]["common"]["name"];
-                        try
-                        {
-                            JToken buildtime = steamGameData["data"][AppID]["depots"]["branches"][Branch]["timeupdated"];
-                            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(buildtime.Value<long>());
-                            BuildTime = dateTime.ToString("MMMM d, yyyy - HH:mm:ss UTC", System.Globalization.CultureInfo.InvariantCulture);
-                        }
-                        catch
-                        {
-                            BuildTime = "";
-                        }
-                        GameNameEarly = steamGameData["data"][AppID]["common"]["name"].Value<string>();
-                        GameNameEarly = GameNameEarly.Replace(" ", "_");
                     }
                     else
                     {
