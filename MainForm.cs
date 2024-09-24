@@ -28,39 +28,46 @@ namespace SuperSteamPacker
         public MainWindow()
         {
             InitializeComponent();
+            public void EnsureDirectoryExists(string directoryPath)
+            {
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+            }
 
-            if (Directory.Exists("Jobs"))
+            public void DeleteDirectoryIfExists(string directoryPath)
             {
-                Directory.Delete("Jobs", true);
-            }
-            if (Directory.Exists("Temp"))
-            {
-                Directory.Delete("Temp", true);
-            }
-            if (!File.Exists("settings.ini"))
-            {
-                File.WriteAllBytes("settings.ini", Properties.Resources.Settings);
-            }
-            if (!Directory.Exists("Language"))
-            {
-                Directory.CreateDirectory("Language");
-            }
-            if (!File.Exists("Compressor\\7z.exe"))
-            {
-                if (!Directory.Exists("Compressor"))
+                if (Directory.Exists(directoryPath))
                 {
-                    Directory.CreateDirectory("Compressor");
+                    Directory.Delete(directoryPath, true);
                 }
-                File.WriteAllBytes("Compressor\\7z.exe", Properties.Resources._7z);
             }
-            if (!File.Exists("Compressor\\rar.exe"))
+
+            public void EnsureFileExists(string filePath, byte[] fileContent)
             {
-                if (!Directory.Exists("Compressor"))
+                if (!File.Exists(filePath))
                 {
-                    Directory.CreateDirectory("Compressor");
+                    File.WriteAllBytes(filePath, fileContent);
                 }
-                File.WriteAllBytes("Compressor\\rar.exe", Properties.Resources.rar);
             }
+
+            public void DeleteFileIfExists(string filePath)
+            {
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+            }
+            
+            DeleteDirectoryIfExists("Jobs");
+            DeleteDirectoryIfExists("Temp");
+            EnsureFileExists("settings.ini", Properties.Resources.Settings);
+            EnsureDirectoryExists("Language");
+
+            EnsureDirectoryExists("Compressor");
+            EnsureFileExists("Compressor\\7z.exe", Properties.Resources._7z);
+            EnsureFileExists("Compressor\\rar.exe", Properties.Resources.rar);
 
             ResourceSet resourceSet = Properties.Resources.ResourceManager.GetResourceSet(System.Globalization.CultureInfo.CurrentCulture, true, true);
 
@@ -85,10 +92,7 @@ namespace SuperSteamPacker
 
             if (settingsini.Read("key", "SSP").Length == 0)
             {
-                if (File.Exists("userdata.ini"))
-                {
-                    File.Delete("userdata.ini");
-                }
+                DeleteFileIfExists("userdata.ini");
                 settingsini.Write("key", GenerateKey(32), "SSP");
             }
 
@@ -494,30 +498,12 @@ namespace SuperSteamPacker
             StartBtn.Enabled = false;
             AppIDTxtBox.Enabled = false;
             OSBox.Enabled = false;
-            if (Directory.Exists("Jobs"))
-            {
-                Directory.Delete("Jobs", true);
-            }
-            if (Directory.Exists("Temp"))
-            {
-                Directory.Delete("Temp", true);
-            }
-            if (Directory.Exists("SteamCMD\\steamapps"))
-            {
-                Directory.Delete("SteamCMD\\steamapps", true);
-            }
-            if (Directory.Exists("SteamCMD\\depotcache"))
-            {
-                Directory.Delete("SteamCMD\\depotcache", true);
-            }
-            if (Directory.Exists("SteamCMD\\logs"))
-            {
-                Directory.Delete("SteamCMD\\logs", true);
-            }
-            if (File.Exists("CurrentJob.JOB"))
-            {
-                File.Delete("CurrentJob.JOB");
-            }
+            DeleteDirectoryIfExists("Jobs");
+            DeleteDirectoryIfExists("Temp");
+            DeleteDirectoryIfExists("SteamCMD\\steamapps");
+            DeleteDirectoryIfExists("SteamCMD\\depotcache");
+            DeleteDirectoryIfExists("SteamCMD\\logs");
+            DeleteFileIfExists("CurrentJob.JOB");
 
             var settingsini = new Ini("Settings.ini");
             var globalini = new Ini("Language\\Global.ini");
@@ -566,10 +552,7 @@ namespace SuperSteamPacker
                 }
                 for (int i = 0; i < TmpLstBx.Items.Count; i++)
                 {
-                    if (File.Exists("CurrentJob.JOB"))
-                    {
-                        File.Delete("CurrentJob.JOB");
-                    }
+                    DeleteFileIfExists("CurrentJob.JOB");
                     TmpLstBx.SelectedIndex = i;
                     string os = "";
                     string[] workarray = TmpLstBx.SelectedItem.ToString().Split('|');
@@ -715,10 +698,7 @@ namespace SuperSteamPacker
 
                     QueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("GETINFO", "SSP"), languageini.Read("DOWNLOADING", "SSP")); 
                     Directory.SetCurrentDirectory("SteamCMD");
-                    if (Directory.Exists("Logs"))
-                    {
-                        Directory.Delete("Logs", true);
-                    }
+                    DeleteDirectoryIfExists("Logs");
                     Process SteamCMD = new Process();
                     SteamCMD.StartInfo.FileName = "steamcmd.exe";
                     SteamCMD.StartInfo.Arguments = "+runscript" + " ..\\" + "CurrentJob.JOB";
@@ -759,14 +739,8 @@ namespace SuperSteamPacker
 
                     if (SteamCMD.ExitCode != 0 || ratelimited || failedsubscription || steamguardcodefail || invalidpassword)
                     {
-                        if (Directory.Exists("steamapps"))
-                        {
-                            Directory.Delete("steamapps", true);
-                        }
-                        if (Directory.Exists("depotcache"))
-                        {
-                            Directory.Delete("depotcache", true);
-                        }
+                        DeleteDirectoryIfExists("steamapps");
+                        DeleteDirectoryIfExists("depotcache");
 
                         if (ratelimited && !failedsubscription)
                         {
@@ -784,27 +758,11 @@ namespace SuperSteamPacker
                                     QueueBox.Items[ratelimititems] = QueueBox.Items[i].ToString().Replace(languageini.Read("DOWNLOADING", "SSP"), languageini.Read("RATELIMITED", "SSP"));
                                     QueueBox.Items[ratelimititems] = QueueBox.Items[i].ToString().Replace(languageini.Read("READY", "SSP"), languageini.Read("RATELIMITED", "SSP"));
                                 }
-                                if (Directory.Exists("steamapps"))
-                                {
-                                    Directory.Delete("steamapps", true);
-                                }
-                                if (Directory.Exists("depotcache"))
-                                {
-                                    Directory.Delete("depotcache", true);
-                                }
-                                if (Directory.Exists("logs"))
-                                {
-                                    Directory.Delete("logs", true);
-                                }
-                                Directory.SetCurrentDirectory("..");
-                                if (Directory.Exists("Temp"))
-                                {
-                                    Directory.Delete("Temp", true);
-                                }
-                                if (Directory.Exists("Jobs"))
-                                {
-                                    Directory.Delete("Jobs", true);
-                                }
+                                DeleteDirectoryIfExists("steamapps");
+                                DeleteDirectoryIfExists("depotcache");
+                                DeleteDirectoryIfExists("logs");
+                                DeleteDirectoryIfExists("Temp");
+                                DeleteDirectoryIfExists("Jobs");
                                 break;
                             }
                         }
@@ -824,26 +782,15 @@ namespace SuperSteamPacker
                     }
 
                     Directory.SetCurrentDirectory("..");
-                    if (!Directory.Exists("Temp"))
-                    {
-                        Directory.CreateDirectory("Temp");
-                    }
+                    EnsureDirectoryExists("Temp");
                     DirectoryInfo depotcachedir = new DirectoryInfo("SteamCMD\\depotcache");
                     depotcachedir.MoveTo("Temp\\depotcache");
                     DirectoryInfo steamappsdir = new DirectoryInfo("SteamCMD\\steamapps");
                     steamappsdir.MoveTo("Temp\\steamapps");
-                    if (File.Exists("Temp\\steamapps\\libraryfolders.vdf"))
-                    {
-                        File.Delete("Temp\\steamapps\\libraryfolders.vdf");
-                    }
-                    if (Directory.Exists("Temp\\steamapps\\downloading"))
-                    {
-                        Directory.Delete("Temp\\steamapps\\downloading", true);
-                    }
-                    if (Directory.Exists("Temp\\steamapps\\temp"))
-                    {
-                        Directory.Delete("Temp\\steamapps\\temp", true);
-                    }
+                    DeleteFileIfExists("Temp\\steamapps\\libraryfolders.vdf");
+                    DeleteDirectoryIfExists("Temp\\steamapps\\downloading");
+                    DeleteDirectoryIfExists("Temp\\steamapps\\temp");
+                    
                     string[] acffiles = Directory.GetFiles("Temp\\steamapps", "*.acf");
                     foreach (string acffile in acffiles)
                     {
@@ -857,15 +804,9 @@ namespace SuperSteamPacker
                     char[] forbiddenchars = Path.GetInvalidFileNameChars();
                     GameName = Regex.Replace(GameName, "[" + Regex.Escape(new string(forbiddenchars)) + "]", "");
                     string BuildNo = ReadVDF("Temp\\steamapps\\appmanifest_" + AppID + ".acf", "buildid");
-                    if (!Directory.Exists("Completed"))
-                    {
-                        Directory.CreateDirectory("Completed");
-                    }
+                    EnsureDirectoryExists("Completed");
                     Directory.SetCurrentDirectory("Temp");
-                    if (Directory.Exists("steamapps\\workshop"))
-                    {
-                        Directory.Delete("steamapps\\workshop", true);
-                    }
+                    DeleteDirectoryIfExists("steamapps\\workshop");
 
                     List<string> DepotManifestList = new List<string>();
 
@@ -1065,10 +1006,7 @@ namespace SuperSteamPacker
                     }
 
                     QueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("WRITINGINFO", "SSP"), languageini.Read("COMPLETE", "SSP"));
-                    if (File.Exists("Currentjob.JOB"))
-                    {
-                        File.Delete("Currentjob.JOB");
-                    }
+                    DeleteFileIfExists("CurrentJob.JOB");
 
                     try
                     {
@@ -1081,10 +1019,8 @@ namespace SuperSteamPacker
                         settingsini.Write("gamesshared", "0", "SSP");
                     }
                 }
-                if (Directory.Exists("Jobs"))
-                {
-                    Directory.Delete("Jobs", true);
-                }
+                DeleteDirectoryIfExists("Jobs");
+
                 MessageBox.Show(languageini.Read("jobscomplete", "SSP") + "\n\n" + languageini.Read("jobscomplete2", "SSP"), languageini.Read("information", "SSP"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 StartBtn.Enabled=false;
                 AddBtn.Enabled=false;
@@ -1634,30 +1570,13 @@ namespace SuperSteamPacker
         private void MODStartBtn_Click(object sender, EventArgs e)
         {
             MODStartBtn.Enabled = false;
-            if (Directory.Exists("Jobs"))
-            {
-                Directory.Delete("Jobs", true);
-            }
-            if (Directory.Exists("Temp"))
-            {
-                Directory.Delete("Temp", true);
-            }
-            if (Directory.Exists("SteamCMD\\steamapps"))
-            {
-                Directory.Delete("SteamCMD\\steamapps", true);
-            }
-            if (Directory.Exists("SteamCMD\\depotcache"))
-            {
-                Directory.Delete("SteamCMD\\depotcache", true);
-            }
-            if (Directory.Exists("SteamCMD\\logs"))
-            {
-                Directory.Delete("SteamCMD\\logs", true);
-            }
-            if (File.Exists("CurrentJob.JOB"))
-            {
-                File.Delete("CurrentJob.JOB");
-            }
+            DeleteDirectoryIfExists("Jobs");
+            DeleteDirectoryIfExists("Temp");
+            DeleteDirectoryIfExists("SteamCMD\\steamapps");
+            DeleteDirectoryIfExists("SteamCMD\\depotcache");
+            DeleteDirectoryIfExists("SteamCMD\\logs");
+            DeleteFileIfExists("CurrentJob.JOB");
+
             var settingsini = new Ini("Settings.ini");
             var globalini = new Ini("Language\\Global.ini");
             string readlanguage = settingsini.Read("language", "SSP");
@@ -1694,10 +1613,7 @@ namespace SuperSteamPacker
                 }
                 for (int i = 0; i < MODTmpLstBx.Items.Count; i++)
                 {
-                    if (File.Exists("CurrentJob.JOB"))
-                    {
-                        File.Delete("CurrentJob.JOB");
-                    }
+                    DeleteFileIfExists("CurrentJob.JOB");
                     MODTmpLstBx.SelectedIndex = i;
                     string[] workarray = MODTmpLstBx.SelectedItem.ToString().Split('|');
                     string AppID = workarray[0];
@@ -1737,10 +1653,8 @@ namespace SuperSteamPacker
                     {
                     }
                     MODQueueBox.Items[i] = MODQueueBox.Items[i].ToString().Replace(languageini.Read("READY", "SSP"), languageini.Read("DOWNLOADING", "SSP"));
-                    if (Directory.Exists("Logs"))
-                    {
-                        Directory.Delete("Logs", true);
-                    }
+                    DeleteDirectoryIfExists("Logs");
+
                     Directory.SetCurrentDirectory("SteamCMD");
                     Process SteamCMD = new Process();
                     SteamCMD.StartInfo.FileName = "steamcmd.exe";
@@ -1781,14 +1695,8 @@ namespace SuperSteamPacker
 
                     if (SteamCMD.ExitCode != 0 || ratelimited || failedsubscription || steamguardcodefail || invalidpassword)
                     {
-                        if (Directory.Exists("steamapps"))
-                        {
-                            Directory.Delete("steamapps", true);
-                        }
-                        if (Directory.Exists("depotcache"))
-                        {
-                            Directory.Delete("depotcache", true);
-                        }
+                        DeleteDirectoryIfExists("steamapps");
+                        DeleteDirectoryIfExists("depotcache");
 
                         if (ratelimited && !failedsubscription)
                         {
@@ -1806,27 +1714,13 @@ namespace SuperSteamPacker
                                     MODQueueBox.Items[ratelimititems] = MODQueueBox.Items[i].ToString().Replace(languageini.Read("DOWNLOADING", "SSP"), languageini.Read("RATELIMITED", "SSP"));
                                     MODQueueBox.Items[ratelimititems] = MODQueueBox.Items[i].ToString().Replace(languageini.Read("READY", "SSP"), languageini.Read("RATELIMITED", "SSP"));
                                 }
-                                if (Directory.Exists("steamapps"))
-                                {
-                                    Directory.Delete("steamapps", true);
-                                }
-                                if (Directory.Exists("depotcache"))
-                                {
-                                    Directory.Delete("depotcache", true);
-                                }
-                                if (Directory.Exists("logs"))
-                                {
-                                    Directory.Delete("logs", true);
-                                }
+                                DeleteDirectoryIfExists("steamapps");
+                                DeleteDirectoryIfExists("depotcache");
+                                DeleteDirectoryIfExists("logs");
+
                                 Directory.SetCurrentDirectory("..");
-                                if (Directory.Exists("Temp"))
-                                {
-                                    Directory.Delete("Temp", true);
-                                }
-                                if (Directory.Exists("Jobs"))
-                                {
-                                    Directory.Delete("Jobs", true);
-                                }
+                                DeleteDirectoryIfExists("Temp");
+                                DeleteDirectoryIfExists("Jobs");
                                 break;
                             }
                         }
@@ -1845,10 +1739,8 @@ namespace SuperSteamPacker
                         }
                     }
                     Directory.SetCurrentDirectory("..");
-                    if (!Directory.Exists("Temp"))
-                    {
-                        Directory.CreateDirectory("Temp");
-                    }
+                    EnsureDirectoryExists("Temp");
+
                     DirectoryInfo depotcachedir = new DirectoryInfo("SteamCMD\\depotcache");
                     try
                     {
@@ -1862,30 +1754,16 @@ namespace SuperSteamPacker
                     }
                     DirectoryInfo steamappsdir = new DirectoryInfo("SteamCMD\\steamapps");
                     steamappsdir.MoveTo("Temp\\steamapps");
-                    if (File.Exists("Temp\\steamapps\\libraryfolders.vdf"))
-                    {
-                        File.Delete("Temp\\steamapps\\libraryfolders.vdf");
-                    }
-                    if (Directory.Exists("Temp\\steamapps\\downloading"))
-                    {
-                        Directory.Delete("Temp\\steamapps\\downloading", true);
-                    }
-                    if (Directory.Exists("Temp\\steamapps\\temp"))
-                    {
-                        Directory.Delete("Temp\\steamapps\\temp", true);
-                    }
-                    if (Directory.Exists("Temp\\steamapps\\workshop\\downloads"))
-                    {
-                        Directory.Delete("Temp\\steamapps\\workshop\\downloads", true);
-                    }
-                    if (Directory.Exists("Temp\\steamapps\\workshop\\temp"))
-                    {
-                        Directory.Delete("Temp\\steamapps\\workshop\\temp", true);
-                    }
-                    if (!Directory.Exists("Completed"))
-                    {
-                        Directory.CreateDirectory("Completed");
-                    }
+                    
+                    DeleteFileIfExists("Temp\\steamapps\\libraryfolders.vdf");
+                    
+                    DeleteDirectoryIfExists("Temp\\steamapps\\downloading");
+                    DeleteDirectoryIfExists("Temp\\steamapps\\temp");
+                    DeleteDirectoryIfExists("Temp\\steamapps\\workshop\\downloads");
+                    DeleteDirectoryIfExists("Temp\\steamapps\\workshop\\temp");
+                    
+                    EnsureDirectoryExists("Completed");
+
 
                     Directory.SetCurrentDirectory("Temp");
                     MODQueueBox.Items[i] = MODQueueBox.Items[i].ToString().Replace(languageini.Read("DOWNLOADING", "SSP"), languageini.Read("COMPRESSING", "SSP"));
@@ -1979,15 +1857,9 @@ namespace SuperSteamPacker
                     Directory.SetCurrentDirectory("..");
                     Directory.Delete("Temp", true);
                     MODQueueBox.Items[i] = MODQueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("COMPLETE", "SSP"));
-                    if (File.Exists("Currentjob.JOB"))
-                    {
-                        File.Delete("Currentjob.JOB");
-                    }
+                    DeleteFileIfExists("CurrentJob.JOB");
                 }
-                if (Directory.Exists("Jobs"))
-                {
-                    Directory.Delete("Jobs", true);
-                }
+                DeleteDirectoryIfExists("Jobs");
                 MessageBox.Show(languageini.Read("jobscomplete", "SSP") + "\n\n" + languageini.Read("jobscomplete2", "SSP"), languageini.Read("information", "SSP"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MODStartBtn.Enabled = false;
                 MODAddBtn.Enabled = false;
