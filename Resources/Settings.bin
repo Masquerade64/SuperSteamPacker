@@ -3,5 +3,6 @@ language=English
 loginwarningaccepted=false
 userdatasaved=false
 compressor=7z
+skipcompression=0
 uploadcrewmode=0
 gamesshared=0

@@ -696,6 +696,9 @@ namespace SuperSteamPacker
                     }
                     else
                     {
+                        //BuildNoEarly = "Unknown";
+                        //BuildTime    = "";
+                        //GameNameEarly= "";
                         QueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("GETINFO", "SSP"), languageini.Read("UNABLETOREACH", "SSP"));
                         continue;
                     }
@@ -894,87 +897,95 @@ namespace SuperSteamPacker
                         }
                     }
 
-                    QueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("DOWNLOADING", "SSP"), languageini.Read("COMPRESSING", "SSP"));
-
-                    Process Compress = new Process();
-                    if (settingsini.Read("compressor", "SSP") == "7z")
+                    if (settingsini.Read("skipcompression", "SSP") == "1")
                     {
-                        Compress.StartInfo.FileName = "..\\Compressor\\7z.exe";
-                        if (String.IsNullOrEmpty(settingsini.Read("customcompressoption", "SSP")))
-                        {
-                            if (File.Exists("..\\Completed\\"+GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".7z") || File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".7z.001"))
-                            {
-                                QueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("SKIPPED", "SSP"));
-                                Directory.SetCurrentDirectory("..");
-                                Directory.Delete("Temp", true);
-                                continue;
-                            }
-                            else
-                            {
-                                Compress.StartInfo.Arguments = "a -mx9 -sdel -pcs.rin.ru -v5g ..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".7z *";
-                            }
-                            
-                        }
-                        else
-                        {
-                            if (File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".7z") || File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".7z.001"))
-                            {
-                                QueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("SKIPPED", "SSP"));
-                                Directory.SetCurrentDirectory("..");
-                                Directory.Delete("Temp", true);
-                                continue;
-                            }
-                            else
-                            {
-                                Compress.StartInfo.Arguments = "a " + settingsini.Read("customcompressoption", "SSP") + " ..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".7z *";
-                            }
-                        }
+                        Directory.SetCurrentDirectory("..");
+                        Directory.Move("Temp", "Completed\\" + GameName + ".Build." + BuildNo + "." + OS + "." + workarray[2]);
                     }
                     else
                     {
-                        Compress.StartInfo.FileName = "..\\Compressor\\rar.exe";
-                        if (String.IsNullOrEmpty(settingsini.Read("customcompressoption", "SSP")))
+                        QueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("DOWNLOADING", "SSP"), languageini.Read("COMPRESSING", "SSP"));
+
+                        Process Compress = new Process();
+                        if (settingsini.Read("compressor", "SSP") == "7z")
                         {
-                            if (File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".rar") || File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".part1.rar"))
+                            Compress.StartInfo.FileName = "..\\Compressor\\7z.exe";
+                            if (String.IsNullOrEmpty(settingsini.Read("customcompressoption", "SSP")))
                             {
-                                QueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("SKIPPED", "SSP"));
-                                Directory.SetCurrentDirectory("..");
-                                Directory.Delete("Temp", true);
-                                continue;
+                                if (File.Exists("..\\Completed\\" + GameName + ".Build." + BuildNo + "." + OS + "." + workarray[2] + ".7z") || File.Exists("..\\Completed\\" + GameName + ".Build." + BuildNo + "." + OS + "." + workarray[2] + ".7z.001"))
+                                {
+                                    QueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("SKIPPED", "SSP"));
+                                    Directory.SetCurrentDirectory("..");
+                                    Directory.Delete("Temp", true);
+                                    continue;
+                                }
+                                else
+                                {
+                                    Compress.StartInfo.Arguments = "a -mx9 -sdel -pcs.rin.ru -mhe=on -v5g ..\\Completed\\" + GameName + ".Build." + BuildNo + "." + OS + "." + workarray[2] + ".7z *";
+                                }
+
                             }
                             else
                             {
-                                Compress.StartInfo.Arguments = "a -df -hpcs.rin.ru -htc -v5000000k -r ..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".rar *";
+                                if (File.Exists("..\\Completed\\" + GameName + ".Build." + BuildNo + "." + OS + "." + workarray[2] + ".7z") || File.Exists("..\\Completed\\" + GameName + ".Build." + BuildNo + "." + OS + "." + workarray[2] + ".7z.001"))
+                                {
+                                    QueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("SKIPPED", "SSP"));
+                                    Directory.SetCurrentDirectory("..");
+                                    Directory.Delete("Temp", true);
+                                    continue;
+                                }
+                                else
+                                {
+                                    Compress.StartInfo.Arguments = "a " + settingsini.Read("customcompressoption", "SSP") + " ..\\Completed\\" + GameName + ".Build." + BuildNo + "." + OS + "." + workarray[2] + ".7z *";
+                                }
                             }
                         }
                         else
                         {
-                            if (File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".rar") || File.Exists("..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".part1.rar"))
+                            Compress.StartInfo.FileName = "..\\Compressor\\rar.exe";
+                            if (String.IsNullOrEmpty(settingsini.Read("customcompressoption", "SSP")))
                             {
-                                QueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("SKIPPED", "SSP"));
-                                Directory.SetCurrentDirectory("..");
-                                Directory.Delete("Temp", true);
-                                continue;
+                                if (File.Exists("..\\Completed\\" + GameName + ".Build." + BuildNo + "." + OS + "." + workarray[2] + ".rar") || File.Exists("..\\Completed\\" + GameName + ".Build." + BuildNo + "." + OS + "." + workarray[2] + ".part1.rar"))
+                                {
+                                    QueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("SKIPPED", "SSP"));
+                                    Directory.SetCurrentDirectory("..");
+                                    Directory.Delete("Temp", true);
+                                    continue;
+                                }
+                                else
+                                {
+                                    Compress.StartInfo.Arguments = "a -df -hpcs.rin.ru -htc -v5000000k -r ..\\Completed\\" + GameName + ".Build." + BuildNo + "." + OS + "." + workarray[2] + ".rar *";
+                                }
                             }
                             else
                             {
-                                Compress.StartInfo.Arguments = "a " + settingsini.Read("customcompressoption", "SSP") + " ..\\Completed\\" + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".rar *";
+                                if (File.Exists("..\\Completed\\" + GameName + ".Build." + BuildNo + "." + OS + "." + workarray[2] + ".rar") || File.Exists("..\\Completed\\" + GameName + ".Build." + BuildNo + "." + OS + "." + workarray[2] + ".part1.rar"))
+                                {
+                                    QueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("SKIPPED", "SSP"));
+                                    Directory.SetCurrentDirectory("..");
+                                    Directory.Delete("Temp", true);
+                                    continue;
+                                }
+                                else
+                                {
+                                    Compress.StartInfo.Arguments = "a " + settingsini.Read("customcompressoption", "SSP") + " ..\\Completed\\" + GameName + ".Build." + BuildNo + "." + OS + "." + workarray[2] + ".rar *";
+                                }
                             }
                         }
-                    }
-                    Compress.Start();
-                    Compress.WaitForExit();
+                        Compress.Start();
+                        Compress.WaitForExit();
 
-                    if (Compress.ExitCode!=0)
-                    {
-                        QueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("FAIL", "SSP"));
-                        Directory.SetCurrentDirectory("..");
-                        DirectoryInfo directoryInfo = new DirectoryInfo("Completed");
-                        foreach (FileInfo fileToDelete in directoryInfo.GetFiles(GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".*"))
+                        if (Compress.ExitCode != 0)
                         {
-                            fileToDelete.Delete();
+                            QueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("FAIL", "SSP"));
+                            Directory.SetCurrentDirectory("..");
+                            DirectoryInfo directoryInfo = new DirectoryInfo("Completed");
+                            foreach (FileInfo fileToDelete in directoryInfo.GetFiles(GameName + ".Build." + BuildNo + "." + OS + "." + workarray[2] + ".*"))
+                            {
+                                fileToDelete.Delete();
+                            }
+                            continue;
                         }
-                        continue;
                     }
 
                     if (!File.Exists("..\\Completed\\"+ GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".7z.002") && settingsini.Read("compressor", "SSP") == "7z")
@@ -985,8 +996,11 @@ namespace SuperSteamPacker
                         }
                         
                     }
-                    Directory.SetCurrentDirectory("..");
-                    Directory.Delete("Temp", true);
+                    if (settingsini.Read("skipcompression", "SSP") == "0")
+                    {
+                        Directory.SetCurrentDirectory("..");
+                        Directory.Delete("Temp", true);
+                    }
                     QueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("WRITINGINFO", "SSP"));
 
                     using (StreamWriter RINfo = new StreamWriter("Completed\\[CS.RIN.RU Info] " + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".txt"))
@@ -1887,97 +1901,104 @@ namespace SuperSteamPacker
                         Directory.CreateDirectory("Completed");
                     }
 
-                    Directory.SetCurrentDirectory("Temp");
-                    MODQueueBox.Items[i] = MODQueueBox.Items[i].ToString().Replace(languageini.Read("DOWNLOADING", "SSP"), languageini.Read("COMPRESSING", "SSP"));
-
-                    Process Compress = new Process();
-                    if (settingsini.Read("compressor", "SSP") == "7z")
+                    if (settingsini.Read("skipcompression", "SSP") == "1")
                     {
-                        Compress.StartInfo.FileName = "..\\Compressor\\7z.exe";
-                        if (String.IsNullOrEmpty(settingsini.Read("customcompressoption", "SSP")))
-                        {
-                            if (File.Exists("..\\Completed\\Workshop_" + AppID + "_" + WorkshopID + ".7z") || File.Exists("..\\Completed\\Workshop_" + AppID + "_" + WorkshopID + ".7z.001"))
-                            {
-                                MODQueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("SKIPPED", "SSP"));
-                                Directory.SetCurrentDirectory("..");
-                                Directory.Delete("Temp", true);
-                                continue;
-                            }
-                            else
-                            {
-                                Compress.StartInfo.Arguments = "a -mx9 -sdel -pcs.rin.ru -v5g ..\\Completed\\Workshop_" + AppID + "_" + WorkshopID + ".7z *";
-                            }
-
-                        }
-                        else
-                        {
-                            if (File.Exists("..\\Completed\\Workshop_" + AppID + "_" + WorkshopID + ".7z") || File.Exists("..\\Completed\\Workshop_" + AppID + "_" + WorkshopID + ".7z.001"))
-                            {
-                                MODQueueBox.Items[i] = MODQueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("SKIPPED", "SSP"));
-                                Directory.SetCurrentDirectory("..");
-                                Directory.Delete("Temp", true);
-                                continue;
-                            }
-                            else
-                            {
-                                Compress.StartInfo.Arguments = "a " + settingsini.Read("customcompressoption", "SSP") + " ..\\Completed\\Workshop_" + AppID + "_" + WorkshopID + ".7z *";
-                            }
-                        }
+                        Directory.Move("Temp", "Completed\\Workshop_" + AppID + "_" + WorkshopID);
                     }
                     else
                     {
-                        Compress.StartInfo.FileName = "..\\Compressor\\rar.exe";
-                        if (String.IsNullOrEmpty(settingsini.Read("customcompressoption", "SSP")))
+                        Directory.SetCurrentDirectory("Temp");
+                        MODQueueBox.Items[i] = MODQueueBox.Items[i].ToString().Replace(languageini.Read("DOWNLOADING", "SSP"), languageini.Read("COMPRESSING", "SSP"));
+
+                        Process Compress = new Process();
+                        if (settingsini.Read("compressor", "SSP") == "7z")
                         {
-                            if (File.Exists("..\\Completed\\" + AppID + "_" + WorkshopID + ".rar") || File.Exists("..\\Completed\\" + AppID + "_" + WorkshopID + ".part1.rar"))
+                            Compress.StartInfo.FileName = "..\\Compressor\\7z.exe";
+                            if (String.IsNullOrEmpty(settingsini.Read("customcompressoption", "SSP")))
                             {
-                                MODQueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("SKIPPED", "SSP"));
-                                Directory.SetCurrentDirectory("..");
-                                Directory.Delete("Temp", true);
-                                continue;
+                                if (File.Exists("..\\Completed\\Workshop_" + AppID + "_" + WorkshopID + ".7z") || File.Exists("..\\Completed\\Workshop_" + AppID + "_" + WorkshopID + ".7z.001"))
+                                {
+                                    MODQueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("SKIPPED", "SSP"));
+                                    Directory.SetCurrentDirectory("..");
+                                    Directory.Delete("Temp", true);
+                                    continue;
+                                }
+                                else
+                                {
+                                    Compress.StartInfo.Arguments = "a -mx9 -sdel -pcs.rin.ru -mhe=on -v5g ..\\Completed\\Workshop_" + AppID + "_" + WorkshopID + ".7z *";
+                                }
+
                             }
                             else
                             {
-                                Compress.StartInfo.Arguments = "a -df -hpcs.rin.ru -htc -v5000000k -r ..\\Completed\\" + AppID + "_" + WorkshopID + ".rar *";
+                                if (File.Exists("..\\Completed\\Workshop_" + AppID + "_" + WorkshopID + ".7z") || File.Exists("..\\Completed\\Workshop_" + AppID + "_" + WorkshopID + ".7z.001"))
+                                {
+                                    MODQueueBox.Items[i] = MODQueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("SKIPPED", "SSP"));
+                                    Directory.SetCurrentDirectory("..");
+                                    Directory.Delete("Temp", true);
+                                    continue;
+                                }
+                                else
+                                {
+                                    Compress.StartInfo.Arguments = "a " + settingsini.Read("customcompressoption", "SSP") + " ..\\Completed\\Workshop_" + AppID + "_" + WorkshopID + ".7z *";
+                                }
                             }
                         }
                         else
                         {
-                            if (File.Exists("..\\Completed\\" + AppID + "_" + WorkshopID + ".rar") || File.Exists("..\\Completed\\" + AppID + "_" + WorkshopID + ".part1.rar"))
+                            Compress.StartInfo.FileName = "..\\Compressor\\rar.exe";
+                            if (String.IsNullOrEmpty(settingsini.Read("customcompressoption", "SSP")))
                             {
-                                QueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("SKIPPED", "SSP"));
-                                Directory.SetCurrentDirectory("..");
-                                Directory.Delete("Temp", true);
-                                continue;
+                                if (File.Exists("..\\Completed\\" + AppID + "_" + WorkshopID + ".rar") || File.Exists("..\\Completed\\" + AppID + "_" + WorkshopID + ".part1.rar"))
+                                {
+                                    MODQueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("SKIPPED", "SSP"));
+                                    Directory.SetCurrentDirectory("..");
+                                    Directory.Delete("Temp", true);
+                                    continue;
+                                }
+                                else
+                                {
+                                    Compress.StartInfo.Arguments = "a -df -hpcs.rin.ru -htc -v5000000k -r ..\\Completed\\" + AppID + "_" + WorkshopID + ".rar *";
+                                }
                             }
                             else
                             {
-                                Compress.StartInfo.Arguments = "a " + settingsini.Read("customcompressoption", "SSP") + " ..\\Completed\\" + AppID + "_" + WorkshopID + ".rar *";
+                                if (File.Exists("..\\Completed\\" + AppID + "_" + WorkshopID + ".rar") || File.Exists("..\\Completed\\" + AppID + "_" + WorkshopID + ".part1.rar"))
+                                {
+                                    QueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("SKIPPED", "SSP"));
+                                    Directory.SetCurrentDirectory("..");
+                                    Directory.Delete("Temp", true);
+                                    continue;
+                                }
+                                else
+                                {
+                                    Compress.StartInfo.Arguments = "a " + settingsini.Read("customcompressoption", "SSP") + " ..\\Completed\\" + AppID + "_" + WorkshopID + ".rar *";
+                                }
                             }
                         }
-                    }
-                    Compress.Start();
-                    Compress.WaitForExit();
-                    if (Compress.ExitCode != 0)
-                    {
-                        MODQueueBox.Items[i] = MODQueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("FAIL", "SSP"));
+                        Compress.Start();
+                        Compress.WaitForExit();
+                        if (Compress.ExitCode != 0)
+                        {
+                            MODQueueBox.Items[i] = MODQueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("FAIL", "SSP"));
+                            Directory.SetCurrentDirectory("..");
+                            DirectoryInfo directoryInfo = new DirectoryInfo("Completed");
+                            foreach (FileInfo fileToDelete in directoryInfo.GetFiles("Workshop_" + AppID + "_" + WorkshopID + ".*"))
+                            {
+                                fileToDelete.Delete();
+                            }
+                            continue;
+                        }
+                        if (!File.Exists("..\\Completed\\Workshop_" + AppID + "_" + WorkshopID + ".7z.002") && settingsini.Read("compressor", "SSP") == "7z")
+                        {
+                            if (File.Exists("..\\Completed\\Workshop_" + AppID + "_" + WorkshopID + ".7z.001"))
+                            {
+                                File.Move("..\\Completed\\Workshop_" + AppID + "_" + WorkshopID + ".7z.001", "..\\Completed\\Workshop_" + AppID + "_" + WorkshopID + ".7z.");
+                            }
+                        }
                         Directory.SetCurrentDirectory("..");
-                        DirectoryInfo directoryInfo = new DirectoryInfo("Completed");
-                        foreach (FileInfo fileToDelete in directoryInfo.GetFiles("Workshop_" + AppID + "_" + WorkshopID + ".*"))
-                        {
-                            fileToDelete.Delete();
-                        }
-                        continue;
+                        Directory.Delete("Temp", true);
                     }
-                    if (!File.Exists("..\\Completed\\Workshop_" + AppID + "_" + WorkshopID + ".7z.002") && settingsini.Read("compressor", "SSP") == "7z")
-                    {
-                        if (File.Exists("..\\Completed\\Workshop_" + AppID + "_" + WorkshopID + ".7z.001"))
-                        {
-                            File.Move("..\\Completed\\Workshop_" + AppID + "_" + WorkshopID + ".7z.001", "..\\Completed\\Workshop_" + AppID + "_" + WorkshopID + ".7z.");
-                        }
-                    }
-                    Directory.SetCurrentDirectory("..");
-                    Directory.Delete("Temp", true);
                     MODQueueBox.Items[i] = MODQueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("COMPLETE", "SSP"));
                     if (File.Exists("Currentjob.JOB"))
                     {

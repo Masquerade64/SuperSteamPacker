@@ -43,11 +43,12 @@
             this.rinruUsernameLabel = new System.Windows.Forms.Label();
             this.filehostLabel = new System.Windows.Forms.Label();
             this.filehostTextbox = new System.Windows.Forms.TextBox();
+            this.SkipCompressionCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // DelSavedLoginBtn
             // 
-            this.DelSavedLoginBtn.Location = new System.Drawing.Point(12, 298);
+            this.DelSavedLoginBtn.Location = new System.Drawing.Point(12, 326);
             this.DelSavedLoginBtn.Name = "DelSavedLoginBtn";
             this.DelSavedLoginBtn.Size = new System.Drawing.Size(280, 23);
             this.DelSavedLoginBtn.TabIndex = 0;
@@ -120,7 +121,7 @@
             // UploadCrewModeCB
             // 
             this.UploadCrewModeCB.AutoSize = true;
-            this.UploadCrewModeCB.Location = new System.Drawing.Point(12, 159);
+            this.UploadCrewModeCB.Location = new System.Drawing.Point(12, 187);
             this.UploadCrewModeCB.Name = "UploadCrewModeCB";
             this.UploadCrewModeCB.Size = new System.Drawing.Size(160, 17);
             this.UploadCrewModeCB.TabIndex = 7;
@@ -131,7 +132,7 @@
             // DarkModeCB
             // 
             this.DarkModeCB.AutoSize = true;
-            this.DarkModeCB.Location = new System.Drawing.Point(12, 276);
+            this.DarkModeCB.Location = new System.Drawing.Point(12, 304);
             this.DarkModeCB.Name = "DarkModeCB";
             this.DarkModeCB.Size = new System.Drawing.Size(125, 17);
             this.DarkModeCB.TabIndex = 8;
@@ -141,7 +142,7 @@
             // 
             // DepotSyncBtn
             // 
-            this.DepotSyncBtn.Location = new System.Drawing.Point(12, 328);
+            this.DepotSyncBtn.Location = new System.Drawing.Point(12, 356);
             this.DepotSyncBtn.Name = "DepotSyncBtn";
             this.DepotSyncBtn.Size = new System.Drawing.Size(280, 23);
             this.DepotSyncBtn.TabIndex = 9;
@@ -151,7 +152,7 @@
             // 
             // rinruUsernameTextbox
             // 
-            this.rinruUsernameTextbox.Location = new System.Drawing.Point(12, 201);
+            this.rinruUsernameTextbox.Location = new System.Drawing.Point(12, 229);
             this.rinruUsernameTextbox.Name = "rinruUsernameTextbox";
             this.rinruUsernameTextbox.Size = new System.Drawing.Size(280, 20);
             this.rinruUsernameTextbox.TabIndex = 10;
@@ -160,7 +161,7 @@
             // rinruUsernameLabel
             // 
             this.rinruUsernameLabel.AutoSize = true;
-            this.rinruUsernameLabel.Location = new System.Drawing.Point(12, 183);
+            this.rinruUsernameLabel.Location = new System.Drawing.Point(12, 211);
             this.rinruUsernameLabel.Name = "rinruUsernameLabel";
             this.rinruUsernameLabel.Size = new System.Drawing.Size(101, 13);
             this.rinruUsernameLabel.TabIndex = 11;
@@ -169,7 +170,7 @@
             // filehostLabel
             // 
             this.filehostLabel.AutoSize = true;
-            this.filehostLabel.Location = new System.Drawing.Point(12, 228);
+            this.filehostLabel.Location = new System.Drawing.Point(12, 256);
             this.filehostLabel.Name = "filehostLabel";
             this.filehostLabel.Size = new System.Drawing.Size(66, 13);
             this.filehostLabel.TabIndex = 12;
@@ -177,18 +178,30 @@
             // 
             // filehostTextbox
             // 
-            this.filehostTextbox.Location = new System.Drawing.Point(12, 246);
+            this.filehostTextbox.Location = new System.Drawing.Point(12, 274);
             this.filehostTextbox.Name = "filehostTextbox";
             this.filehostTextbox.Size = new System.Drawing.Size(281, 20);
             this.filehostTextbox.TabIndex = 13;
             this.filehostTextbox.TextChanged += new System.EventHandler(this.filehostTextbox_TextChanged);
+            // 
+            // SkipCompressionCheckBox
+            // 
+            this.SkipCompressionCheckBox.AutoSize = true;
+            this.SkipCompressionCheckBox.Location = new System.Drawing.Point(12, 161);
+            this.SkipCompressionCheckBox.Name = "SkipCompressionCheckBox";
+            this.SkipCompressionCheckBox.Size = new System.Drawing.Size(104, 17);
+            this.SkipCompressionCheckBox.TabIndex = 14;
+            this.SkipCompressionCheckBox.Text = "skipcompression";
+            this.SkipCompressionCheckBox.UseVisualStyleBackColor = true;
+            this.SkipCompressionCheckBox.CheckedChanged += new System.EventHandler(this.SkipCompressionCheckBox_CheckedChanged);
             // 
             // MoreSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(303, 356);
+            this.ClientSize = new System.Drawing.Size(303, 389);
+            this.Controls.Add(this.SkipCompressionCheckBox);
             this.Controls.Add(this.filehostTextbox);
             this.Controls.Add(this.filehostLabel);
             this.Controls.Add(this.rinruUsernameLabel);
@@ -229,5 +242,6 @@
         private System.Windows.Forms.Label rinruUsernameLabel;
         private System.Windows.Forms.Label filehostLabel;
         private System.Windows.Forms.TextBox filehostTextbox;
+        private System.Windows.Forms.CheckBox SkipCompressionCheckBox;
     }
 }

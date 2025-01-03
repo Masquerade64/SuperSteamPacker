@@ -66,3 +66,4 @@ MODWarning1=AppID or Workshop Item ID is invalid.
 MODManager=Workshop Content Manager
 rinruUsername=Enter your cs.rin.ru username:
 filehost=Enter where you upload files:
+skipcompression=Skip Compression

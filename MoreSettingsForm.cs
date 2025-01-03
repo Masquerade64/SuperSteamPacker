@@ -80,6 +80,7 @@ namespace SuperSteamPacker
             DepotSyncBtn.Text = languageini.Read("SyncDepots", "SSP");
             rinruUsernameLabel.Text = languageini.Read("rinruUsername", "SSP");
             filehostLabel.Text = languageini.Read("filehost", "SSP");
+            SkipCompressionCheckBox.Text = languageini.Read("skipcompression", "SSP");
 
             if (settingsini.Read("darkmode", "SSP") == "1")
             {
@@ -104,9 +105,10 @@ namespace SuperSteamPacker
                 rinruUsernameTextbox.BackColor             = Color.FromArgb(60, 60, 69);
                 rinruUsernameTextbox.BorderStyle           = BorderStyle.FixedSingle;
                 filehostLabel.ForeColor                    = Color.White;
-                filehostTextbox.ForeColor             = Color.White;
-                filehostTextbox.BackColor             = Color.FromArgb(60, 60, 69);
-                filehostTextbox.BorderStyle           = BorderStyle.FixedSingle;
+                filehostTextbox.ForeColor                  = Color.White;
+                filehostTextbox.BackColor                  = Color.FromArgb(60, 60, 69);
+                filehostTextbox.BorderStyle                = BorderStyle.FixedSingle;
+                SkipCompressionCheckBox.ForeColor          = Color.White;    
             }
         }
 
@@ -237,6 +239,20 @@ namespace SuperSteamPacker
         {
             var settingsini = new Ini("Settings.ini");
             settingsini.Write("filehost", filehostTextbox.Text, "SSP");
+        }
+
+        private void SkipCompressionCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            var settingsini = new Ini("Settings.ini");
+            switch (SkipCompressionCheckBox.Checked)
+            {
+                case true:
+                    settingsini.Write("skipcompression", "1", "SSP");
+                    break;
+                case false:
+                    settingsini.Write("skipcompression", "0", "SSP");
+                    break;
+            }
         }
     }
 }

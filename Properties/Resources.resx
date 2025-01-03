@@ -124,6 +124,9 @@
   <data name="LANGDATA_French" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\French.bin;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="LANGDATA_German" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\German.bin;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="LANGDATA_Global" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Global.bin;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

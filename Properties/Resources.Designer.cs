@@ -93,6 +93,16 @@ namespace SuperSteamPacker.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] LANGDATA_German {
+            get {
+                object obj = ResourceManager.GetObject("LANGDATA_German", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] LANGDATA_Global {
             get {
                 object obj = ResourceManager.GetObject("LANGDATA_Global", resourceCulture);
