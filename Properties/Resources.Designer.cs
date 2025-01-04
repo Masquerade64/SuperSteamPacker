@@ -153,6 +153,16 @@ namespace SuperSteamPacker.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] rarreg {
+            get {
+                object obj = ResourceManager.GetObject("rarreg", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] Settings {
             get {
                 object obj = ResourceManager.GetObject("Settings", resourceCulture);

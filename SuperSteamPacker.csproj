@@ -138,6 +138,7 @@
     <None Include="Resources\French.bin" />
     <None Include="Resources\German.bin" />
     <None Include="Resources\Global.bin" />
+    <None Include="Resources\rarreg.key" />
     <None Include="Resources\Settings.bin" />
     <None Include="Resources\Spanish.bin" />
   </ItemGroup>

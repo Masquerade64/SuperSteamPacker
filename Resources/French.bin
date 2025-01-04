@@ -1,7 +1,7 @@
 #
 # Super Steam Packer Language File
 # French by Titeuf
-# V1.2
+# V1.3.2
 
 [SSP]
 by=par
@@ -58,4 +58,13 @@ GameManageGroup=Gestionnaire de jeu
 BranchManagerGroup=Branch Manager
 BranchLabel=Branche a telecharger:
 BranchPassword=Branch password? (Enter below)
-UploadCrewMode=Upload Crew Mode
+UploadCrewMode=Mode Upload Crew
+DarkMode=Mode Nuit
+SyncDepots=Sync les noms des depots
+unabletoaccessgithub=Impossible d'acceder a Github.
+depotsyncsuccess=Les noms des depots ont ete synchronises avec succes.
+MODWarning1=L'ID d'App ou l'ID Item Workshop n'est pas valide.
+MODManager=Gestionnaire de contenu Workshop
+rinruUsername=Entrez votre nom d'utilisateur cs.rin.ru:
+filehost=Entrez l'emplacement où vous uploadez les fichiers:
+skipcompression=Ignorer la compression

@@ -17,6 +17,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Reflection;
 using static SteamKit2.Internal.CContentBuilder_CommitAppBuild_Request;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Windows.Forms.VisualStyles;
@@ -60,6 +61,7 @@ namespace SuperSteamPacker
                     Directory.CreateDirectory("Compressor");
                 }
                 File.WriteAllBytes("Compressor\\rar.exe", Properties.Resources.rar);
+                File.WriteAllBytes("Compressor\\rarreg.key", Properties.Resources.rarreg);
             }
 
             ResourceSet resourceSet = Properties.Resources.ResourceManager.GetResourceSet(System.Globalization.CultureInfo.CurrentCulture, true, true);
@@ -1002,7 +1004,7 @@ namespace SuperSteamPacker
                         Directory.Delete("Temp", true);
                     }
                     QueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("COMPRESSING", "SSP"), languageini.Read("WRITINGINFO", "SSP"));
-
+                    Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
                     using (StreamWriter RINfo = new StreamWriter("Completed\\[CS.RIN.RU Info] " + GameName+".Build."+BuildNo+"."+OS+"."+workarray[2]+".txt"))
                     {
                         GameName = GameName.Replace("_", " ");
@@ -1402,9 +1404,6 @@ namespace SuperSteamPacker
             {
                 decryptedBytes[i] = (byte)(xorbytes[i] ^ keybytes[i % keybytes.Length]);
             }
-
-            //return Encoding.UTF8.GetString(decryptedBytes);
-            //string[] parts = cipherText.Split(':');
 
             string[] parts = Encoding.UTF8.GetString(decryptedBytes).Split(':');
             byte[] iv = Convert.FromBase64String(parts[0]);
@@ -1858,7 +1857,7 @@ namespace SuperSteamPacker
                             continue;
                         }
                     }
-                    Directory.SetCurrentDirectory("..");
+                    Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
                     if (!Directory.Exists("Temp"))
                     {
                         Directory.CreateDirectory("Temp");
