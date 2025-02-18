@@ -34,6 +34,16 @@ namespace SuperSteamPacker
                     break;
             }
 
+            switch (settingsini.Read("steamcmdapi", "SSP"))
+            {
+                case "Public":
+                    SteamCmdApiChoiceBox.SelectedIndex = 0;
+                    break;
+                case "Beta":
+                    SteamCmdApiChoiceBox.SelectedIndex = 1;
+                    break;
+            }
+
             if (!File.Exists("userdata.ini"))
             {
                 DelSavedLoginBtn.Enabled = false;
@@ -108,7 +118,8 @@ namespace SuperSteamPacker
                 filehostTextbox.ForeColor                  = Color.White;
                 filehostTextbox.BackColor                  = Color.FromArgb(60, 60, 69);
                 filehostTextbox.BorderStyle                = BorderStyle.FixedSingle;
-                SkipCompressionCheckBox.ForeColor          = Color.White;    
+                SkipCompressionCheckBox.ForeColor          = Color.White;
+                steamcmdapiLabel.ForeColor                 = Color.White;
             }
         }
 
@@ -194,6 +205,21 @@ namespace SuperSteamPacker
                     filehostTextbox.Text = null;
                     break;
             }
+        }
+
+        private void SteamCmdApiChoiceBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var settingsini = new Ini("Settings.ini");
+            switch (SteamCmdApiChoiceBox.SelectedIndex)
+            {
+                case 0:
+                    settingsini.Write("steamcmdapi", "Public", "SSP");
+                    break;
+                case 1:
+                    settingsini.Write("steamcmdapi", "Beta", "SSP");
+                    break;
+            }
+
         }
 
         private void DarkModeCB_CheckedChanged(object sender, EventArgs e)
