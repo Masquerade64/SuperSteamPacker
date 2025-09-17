@@ -44,11 +44,13 @@
             this.filehostLabel = new System.Windows.Forms.Label();
             this.filehostTextbox = new System.Windows.Forms.TextBox();
             this.SkipCompressionCheckBox = new System.Windows.Forms.CheckBox();
+            this.steamcmdapiLabel = new System.Windows.Forms.Label();
+            this.SteamCmdApiChoiceBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // DelSavedLoginBtn
             // 
-            this.DelSavedLoginBtn.Location = new System.Drawing.Point(12, 326);
+            this.DelSavedLoginBtn.Location = new System.Drawing.Point(10, 380);
             this.DelSavedLoginBtn.Name = "DelSavedLoginBtn";
             this.DelSavedLoginBtn.Size = new System.Drawing.Size(280, 23);
             this.DelSavedLoginBtn.TabIndex = 0;
@@ -132,7 +134,7 @@
             // DarkModeCB
             // 
             this.DarkModeCB.AutoSize = true;
-            this.DarkModeCB.Location = new System.Drawing.Point(12, 304);
+            this.DarkModeCB.Location = new System.Drawing.Point(12, 346);
             this.DarkModeCB.Name = "DarkModeCB";
             this.DarkModeCB.Size = new System.Drawing.Size(125, 17);
             this.DarkModeCB.TabIndex = 8;
@@ -142,7 +144,7 @@
             // 
             // DepotSyncBtn
             // 
-            this.DepotSyncBtn.Location = new System.Drawing.Point(12, 356);
+            this.DepotSyncBtn.Location = new System.Drawing.Point(10, 409);
             this.DepotSyncBtn.Name = "DepotSyncBtn";
             this.DepotSyncBtn.Size = new System.Drawing.Size(280, 23);
             this.DepotSyncBtn.TabIndex = 9;
@@ -178,7 +180,7 @@
             // 
             // filehostTextbox
             // 
-            this.filehostTextbox.Location = new System.Drawing.Point(12, 274);
+            this.filehostTextbox.Location = new System.Drawing.Point(13, 272);
             this.filehostTextbox.Name = "filehostTextbox";
             this.filehostTextbox.Size = new System.Drawing.Size(281, 20);
             this.filehostTextbox.TabIndex = 13;
@@ -195,12 +197,36 @@
             this.SkipCompressionCheckBox.UseVisualStyleBackColor = true;
             this.SkipCompressionCheckBox.CheckedChanged += new System.EventHandler(this.SkipCompressionCheckBox_CheckedChanged);
             // 
+            // steamcmdapiLabel
+            // 
+            this.steamcmdapiLabel.AutoSize = true;
+            this.steamcmdapiLabel.Location = new System.Drawing.Point(12, 304);
+            this.steamcmdapiLabel.Name = "steamcmdapiLabel";
+            this.steamcmdapiLabel.Size = new System.Drawing.Size(81, 13);
+            this.steamcmdapiLabel.TabIndex = 15;
+            this.steamcmdapiLabel.Text = "SteamCMD API";
+            // 
+            // SteamCmdApiChoiceBox
+            // 
+            this.SteamCmdApiChoiceBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.SteamCmdApiChoiceBox.FormattingEnabled = true;
+            this.SteamCmdApiChoiceBox.Items.AddRange(new object[] {
+            "Public",
+            "Beta"});
+            this.SteamCmdApiChoiceBox.Location = new System.Drawing.Point(12, 320);
+            this.SteamCmdApiChoiceBox.Name = "SteamCmdApiChoiceBox";
+            this.SteamCmdApiChoiceBox.Size = new System.Drawing.Size(280, 21);
+            this.SteamCmdApiChoiceBox.TabIndex = 16;
+            this.SteamCmdApiChoiceBox.SelectedIndexChanged += new System.EventHandler(this.SteamCmdApiChoiceBox_SelectedIndexChanged);
+            // 
             // MoreSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(303, 389);
+            this.ClientSize = new System.Drawing.Size(303, 439);
+            this.Controls.Add(this.SteamCmdApiChoiceBox);
+            this.Controls.Add(this.steamcmdapiLabel);
             this.Controls.Add(this.SkipCompressionCheckBox);
             this.Controls.Add(this.filehostTextbox);
             this.Controls.Add(this.filehostLabel);
@@ -243,5 +269,7 @@
         private System.Windows.Forms.Label filehostLabel;
         private System.Windows.Forms.TextBox filehostTextbox;
         private System.Windows.Forms.CheckBox SkipCompressionCheckBox;
+        private System.Windows.Forms.Label steamcmdapiLabel;
+        private System.Windows.Forms.ComboBox SteamCmdApiChoiceBox;
     }
 }

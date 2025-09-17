@@ -85,6 +85,13 @@ namespace SuperSteamPacker
                 settingsini.Write("compressor", "7z", "SSP");
             }
 
+            string steamcmdapicheck = settingsini.Read("steamcmdapi", "SSP");
+
+            if (steamcmdapicheck != "Public" && steamcmdapicheck != "Beta")
+            {
+                settingsini.Write("steamcmdapi", "Public", "SSP");
+            }  
+
             if (settingsini.Read("key", "SSP").Length == 0)
             {
                 if (File.Exists("userdata.ini"))
@@ -639,7 +646,22 @@ namespace SuperSteamPacker
                         Branch = Branch.ToLower();
                     }
                     QueueBox.Items[i] = QueueBox.Items[i].ToString().Replace(languageini.Read("READY", "SSP"), languageini.Read("GETINFO", "SSP"));
-                    var steamGameData = await GetSteamGameDataAsync(AppID);
+
+                    JObject steamGameData = null;
+
+                    if (settingsini.Read("steamcmdapi", "SSP") == "Public")
+                    {
+                        steamGameData = await GetSteamGameDataAsync(AppID);
+                    }
+                    else if (settingsini.Read("steamcmdapi", "SSP") == "Beta")
+                    {
+                        steamGameData = await GetSteamGameDataBetaAsync(AppID);
+                    }
+                    else
+                    {
+                        steamGameData = await GetSteamGameDataAsync(AppID);
+                    }
+
                     string GameNameEarly = "";
                     string OS = "";
                     string BuildNoEarly = "";
@@ -1305,6 +1327,25 @@ namespace SuperSteamPacker
                 using (var httpClient = new HttpClient())
                 {
                     var url = $"https://api.steamcmd.net/v1/info/{appId}";
+                    var response = await httpClient.GetAsync(url);
+                    response.EnsureSuccessStatusCode();
+                    var jsonString = await response.Content.ReadAsStringAsync();
+                    return JObject.Parse(jsonString);
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        static async Task<JObject> GetSteamGameDataBetaAsync(string appId)
+        {
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    var url = $"https://api.beta.steamcmd.net/v1/info/{appId}";
                     var response = await httpClient.GetAsync(url);
                     response.EnsureSuccessStatusCode();
                     var jsonString = await response.Content.ReadAsStringAsync();
